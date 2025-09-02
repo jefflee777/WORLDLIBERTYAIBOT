@@ -1,24 +1,11 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0B0B0C;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-
 body {
   background: linear-gradient(135deg, #0B0B0C, #141414, #1A1A1C);
   background-attachment: fixed;
   background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-  color: #E6E6E6;
+  animation: gradientShift 20s ease infinite;
+  color: #fafaf9;
   font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
@@ -26,7 +13,7 @@ body {
   position: relative;
 }
 
-/* Animated gradient background */
+/* Premium animated gradient background */
 @keyframes gradientShift {
   0% {
     background-position: 0% 50%;
@@ -39,32 +26,31 @@ body {
   }
 }
 
-/* Add subtle neon overlay for extra cyberpunk effect */
+/* World Liberty AI golden neon overlay */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background: 
-    radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(255, 0, 124, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(54, 255, 0, 0.02) 0%, transparent 50%);
+    radial-gradient(circle at 20% 30%, rgba(231, 172, 8, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(253, 217, 73, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(231, 172, 8, 0.04) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
 }
 
-/* Add subtle moving particles effect */
+/* Premium floating particles effect */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   background-image: 
-    radial-gradient(1px 1px at 20px 30px, rgba(0, 240, 255, 0.3), transparent),
-    radial-gradient(1px 1px at 40px 70px, rgba(255, 0, 124, 0.2), transparent),
-    radial-gradient(1px 1px at 90px 40px, rgba(54, 255, 0, 0.2), transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255, 213, 0, 0.1), transparent),
-    radial-gradient(1px 1px at 160px 30px, rgba(106, 0, 255, 0.2), transparent);
-  background-size: 200px 200px;
-  animation: particleFloat 20s linear infinite;
+    radial-gradient(2px 2px at 20px 30px, rgba(231, 172, 8, 0.4), transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(253, 217, 73, 0.3), transparent),
+    radial-gradient(1.5px 1.5px at 90px 40px, rgba(231, 172, 8, 0.3), transparent),
+    radial-gradient(2px 2px at 130px 80px, rgba(253, 217, 73, 0.2), transparent);
+  background-size: 180px 180px;
+  animation: particleFloat 25s linear infinite;
   pointer-events: none;
   z-index: -1;
 }
@@ -74,16 +60,15 @@ body::after {
     transform: translateY(0px) translateX(0px);
   }
   33% {
-    transform: translateY(-100px) translateX(50px);
+    transform: translateY(-80px) translateX(40px);
   }
   66% {
-    transform: translateY(-200px) translateX(-50px);
+    transform: translateY(-160px) translateX(-40px);
   }
   100% {
-    transform: translateY(-300px) translateX(0px);
+    transform: translateY(-240px) translateX(0px);
   }
 }
-
 
 .tektur {
   font-family: "Space Grotesk", sans-serif;
@@ -91,25 +76,25 @@ body::after {
   font-style: normal;
 }
 
-/* Scrollbar for prediction feed */
+/* Hide scrollbar */
 ::-webkit-scrollbar {
   display: none;
 }
 
-
+/* World Liberty AI premium glass effect */
 .glass {
   position: relative;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(54, 255, 0, 0.08) 30%, rgba(255, 78, 0, 0.10) 70%, rgba(255, 0, 124, 0.12) 100%);
+  background: linear-gradient(135deg, rgba(231, 172, 8, 0.15) 0%, rgba(253, 217, 73, 0.10) 30%, rgba(231, 172, 8, 0.12) 70%, rgba(253, 217, 73, 0.15) 100%);
   border-radius: 1rem;
   padding: 1.25rem;
   margin-bottom: 1rem;
-  border: 1px solid rgba(0, 240, 255, 0.3);
+  border: 1px solid rgba(231, 172, 8, 0.4);
   /* box-shadow: 
     0 25px 50px -12px rgba(11, 11, 12, 0.8), 
-    0 0 20px rgba(255, 0, 124, 0.3),
-    0 0 40px rgba(0, 240, 255, 0.2),
+    0 0 25px rgba(231, 172, 8, 0.3),
+    0 0 50px rgba(253, 217, 73, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1), 
     inset 0 -1px 0 rgba(0, 0, 0, 0.3); */
   transition: all 0.5s ease;
@@ -120,51 +105,50 @@ body::after {
   padding: 0.25rem;
 }
 
-/* Hover effects for cyberpunk glass */
+/* Premium hover effects for WLFI glass */
 .glass:hover {
   box-shadow: 
     0 25px 50px -12px rgba(11, 11, 12, 0.8),
-    0 0 30px rgba(255, 0, 124, 0.6),
-    0 0 60px rgba(0, 240, 255, 0.4),
-    0 0 80px rgba(54, 255, 0, 0.3),
+    0 0 40px rgba(231, 172, 8, 0.6),
+    0 0 70px rgba(253, 217, 73, 0.4),
+    0 0 90px rgba(231, 172, 8, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2), 
     inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-  border-color: rgba(0, 240, 255, 0.6);
+  border-color: rgba(231, 172, 8, 0.7);
   transform: translateY(-2px);
 }
 
-/* Background glass layers - First layer */
+/* Enhanced background glass layers */
 .glass::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.08) 0%, rgba(106, 0, 255, 0.06) 50%, rgba(255, 78, 0, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(231, 172, 8, 0.10) 0%, rgba(253, 217, 73, 0.08) 50%, rgba(231, 172, 8, 0.10) 100%);
   border-radius: 1rem;
   filter: blur(40px);
   z-index: -2;
 }
 
-/* Background glass layers - Second layer */
 .glass::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(315deg, rgba(255, 213, 0, 0.05) 0%, transparent 50%, rgba(255, 0, 124, 0.05) 100%);
+  background: linear-gradient(315deg, rgba(253, 217, 73, 0.08) 0%, transparent 50%, rgba(231, 172, 8, 0.08) 100%);
   border-radius: 1rem;
   z-index: -1;
 }
 
-/* Inner glow overlay */
+/* Inner golden glow overlay */
 .glass-glow {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.08) 0%, transparent 100%);
+  background: linear-gradient(135deg, rgba(231, 172, 8, 0.12) 0%, transparent 100%);
   border-radius: 1rem;
   pointer-events: none;
   z-index: 1;
 }
 
-/* Edge highlights for cyberpunk glass effect */
+/* Enhanced edge highlights */
 .glass-edges {
   position: relative;
 }
@@ -176,7 +160,7 @@ body::after {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.8) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(231, 172, 8, 0.8) 50%, transparent 100%);
 }
 
 .glass-edges::after {
@@ -186,10 +170,10 @@ body::after {
   left: 0;
   bottom: 0;
   width: 1px;
-  background: linear-gradient(180deg, transparent 0%, rgba(255, 0, 124, 0.6) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(253, 217, 73, 0.6) 50%, transparent 100%);
 }
 
-/* Floating particles */
+/* World Liberty AI floating particles */
 .glass-particles {
   position: relative;
 }
@@ -201,10 +185,10 @@ body::after {
   right: 0.75rem;
   width: 0.25rem;
   height: 0.25rem;
-  background: rgba(54, 255, 0, 0.8);
+  background: rgba(231, 172, 8, 0.8);
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(54, 255, 0, 0.6);
-  animation: pulse 2s infinite;
+  box-shadow: 0 0 12px rgba(231, 172, 8, 0.6);
+  animation: pulse 2.5s infinite;
 }
 
 .glass-particles::after {
@@ -214,67 +198,48 @@ body::after {
   left: 1rem;
   width: 0.125rem;
   height: 0.125rem;
-  background: rgba(255, 0, 124, 0.6);
+  background: rgba(253, 217, 73, 0.6);
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(255, 0, 124, 0.4);
-  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  box-shadow: 0 0 8px rgba(253, 217, 73, 0.4);
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-/* Alternative cyberpunk glass variants */
-
-/* Variant 1: More transparent */
+/* Premium WLFI glass variants */
 .glass-light {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.06) 0%, rgba(54, 255, 0, 0.04) 50%, rgba(255, 78, 0, 0.06) 100%);
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  background: linear-gradient(135deg, rgba(231, 172, 8, 0.08) 0%, rgba(253, 217, 73, 0.06) 50%, rgba(231, 172, 8, 0.08) 100%);
+  border: 1px solid rgba(231, 172, 8, 0.3);
 }
 
-/* Variant 2: More opaque */
 .glass-dark {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.18) 0%, rgba(106, 0, 255, 0.15) 50%, rgba(255, 0, 124, 0.18) 100%);
-  border: 1px solid rgba(0, 240, 255, 0.5);
+  background: linear-gradient(135deg, rgba(231, 172, 8, 0.20) 0%, rgba(253, 217, 73, 0.18) 50%, rgba(231, 172, 8, 0.20) 100%);
+  border: 1px solid rgba(231, 172, 8, 0.6);
 }
 
-/* Variant 3: Neon Blue theme */
-.glass-blue {
-  background: linear-gradient(135deg, rgba(0, 119, 255, 0.15) 0%, rgba(0, 240, 255, 0.10) 50%, rgba(106, 0, 255, 0.15) 100%);
-  border: 1px solid rgba(0, 119, 255, 0.4);
+/* Golden theme variant */
+.glass-golden {
+  background: linear-gradient(135deg, rgba(231, 172, 8, 0.18) 0%, rgba(253, 217, 73, 0.15) 50%, rgba(231, 172, 8, 0.18) 100%);
+  border: 1px solid rgba(231, 172, 8, 0.5);
 }
 
-.glass-blue:hover {
+.glass-golden:hover {
   box-shadow: 
     0 25px 50px -12px rgba(11, 11, 12, 0.8),
-    0 0 30px rgba(0, 119, 255, 0.6),
-    0 0 60px rgba(0, 240, 255, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1), 
+    0 0 35px rgba(231, 172, 8, 0.7),
+    0 0 65px rgba(253, 217, 73, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15), 
     inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-  border-color: rgba(0, 240, 255, 0.6);
+  border-color: rgba(231, 172, 8, 0.8);
 }
 
-/* Variant 4: Purple theme */
-.glass-purple {
-  background: linear-gradient(135deg, rgba(106, 0, 255, 0.15) 0%, rgba(255, 0, 124, 0.10) 50%, rgba(163, 255, 0, 0.15) 100%);
-  border: 1px solid rgba(106, 0, 255, 0.4);
-}
-
-.glass-purple:hover {
-  box-shadow: 
-    0 25px 50px -12px rgba(11, 11, 12, 0.8),
-    0 0 30px rgba(106, 0, 255, 0.6),
-    0 0 60px rgba(255, 0, 124, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1), 
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-  border-color: rgba(106, 0, 255, 0.6);
-}
-
-/* Animations */
+/* Premium animations */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
     transform: scale(1);
   }
   50% {
-    opacity: 0.6;
-    transform: scale(1.1);
+    opacity: 0.7;
+    transform: scale(1.2);
   }
 }
 
@@ -285,28 +250,29 @@ body::after {
   }
 }
 
-/* Utility classes for content inside cyberpunk glass */
+/* Content styling */
 .glass-content {
   position: relative;
   z-index: 2;
+  color: #fafaf9;
 }
 
-/* For buttons inside cyberpunk glass containers */
+/* World Liberty AI premium buttons */
 .glass-button {
   position: relative;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.8) 0%, rgba(54, 255, 0, 0.9) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background: linear-gradient(135deg, rgba(231, 172, 8, 0.9) 0%, rgba(253, 217, 73, 1) 100%);
   border: none;
   border-radius: 0.75rem;
   padding: 0.75rem 1.5rem;
-  color: #0B0B0C;
+  color: #171412;
   font-weight: 600;
   transition: all 0.3s ease;
   overflow: hidden;
   box-shadow: 
-    0 10px 25px -5px rgba(0, 240, 255, 0.4), 
-    0 0 20px rgba(54, 255, 0, 0.3),
+    0 10px 25px -5px rgba(231, 172, 8, 0.5), 
+    0 0 25px rgba(253, 217, 73, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
@@ -314,7 +280,7 @@ body::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -324,10 +290,51 @@ body::after {
 }
 
 .glass-button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 
-    0 15px 35px -5px rgba(0, 240, 255, 0.6), 
-    0 0 30px rgba(54, 255, 0, 0.5),
-    0 0 60px rgba(255, 0, 124, 0.3),
+    0 15px 35px -5px rgba(231, 172, 8, 0.7), 
+    0 0 35px rgba(253, 217, 73, 0.6),
+    0 0 70px rgba(231, 172, 8, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Typography enhancements */
+h1, h2, h3, h4, h5, h6 {
+  color: transparent;
+  background: linear-gradient(135deg, #e7ac08 0%, #fdd949 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: 700;
+}
+
+p, span, li {
+  color: #d7d3d0;
+}
+
+/* Utility classes */
+.wlfi-text-gold {
+  color: #e7ac08;
+}
+
+.wlfi-text-light-gold {
+  color: #fdd949;
+}
+
+.wlfi-bg-dark {
+  background-color: #171412;
+}
+
+.wlfi-bg-card {
+  background: linear-gradient(135deg, #1c1917 0%, #171412 100%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .glass {
+    padding: 1rem;
+  }
+  
+  body::after {
+    background-size: 120px 120px;
+  }
 }
