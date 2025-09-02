@@ -434,7 +434,7 @@ function TelegramMiniApp() {
   const TopNav = () => (
     <motion.div className="w-full flex justify-between items-center pb-6 px-1">
       <motion.div>
-        <Image src="/logo.png" alt="TRDN" width={200} height={60} priority />
+        <Image src="/logo.png" alt="TRDN" width={100} height={60} priority className='scale-150' />
       </motion.div>
       
       <motion.div 
