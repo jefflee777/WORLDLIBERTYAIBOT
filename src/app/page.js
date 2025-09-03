@@ -87,7 +87,7 @@ const EarningTimer = () => {
             }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            Earn 3,000 TRDN
+            Earn 3,000 WLFI
           </motion.div>
 
           {/* Enhanced Timer display */}
@@ -121,7 +121,7 @@ const EarningTimer = () => {
           >
             <div className="flex items-center justify-center space-x-2">
               <Zap className="w-5 h-5" />
-              <span>Activate TRDN</span>
+              <span>Activate WLFI</span>
             </div>
           </motion.button>
         )}
@@ -134,7 +134,7 @@ const EarningTimer = () => {
         >
           <div className={`w-2 h-2 rounded-full ${earningTimer.isActive ? 'bg-[#36FF00]' : 'bg-[#E6E6E6]/40'}`} />
           <span className="text-[#E6E6E6]/80">
-            {earningTimer.isActive ? 'Neural Networks Active' : 'TRDN Dormant'}
+            {earningTimer.isActive ? 'Neural Networks Active' : 'WLFI Dormant'}
           </span>
         </motion.div>
       </motion.div>
@@ -163,7 +163,7 @@ const UserBalance = () => {
           transition={{ duration: 3, repeat: Infinity }}
         />
         <div className="relative z-10">
-          <div className="text-[#E6E6E6]/70 font-medium text-sm mb-1">TRDN Balance</div>
+          <div className="text-[#E6E6E6]/70 font-medium text-sm mb-1">WLFI Balance</div>
           <motion.div 
             className="text-[#00F0FF] font-bold text-2xl"
             animate={{ 
@@ -242,8 +242,8 @@ const SocialTask = () => {
             </svg>
           </motion.div>
           <div>
-            <h3 className="text-[#E6E6E6] font-semibold text-lg">Join TRDN Official</h3>
-            <p className="text-[#E6E6E6]/70 text-xs">Follow on X for 1,000 TRDN Points</p>
+            <h3 className="text-[#E6E6E6] font-semibold text-lg">Join WLFI Official</h3>
+            <p className="text-[#E6E6E6]/70 text-xs">Follow on X for 1,000 WLFI Points</p>
           </div>
         </div>
         
@@ -278,7 +278,7 @@ const NavigationButtons = ({ setActiveTab, earningTimer, startEarningTimer }) =>
      
   const navItems = [
     { key: 'task', icon: GoTasklist, label: 'Tasks', color: '#36FF00' },
-    { key: 'SPAI', icon: '/agent/agentlogo.png', label: 'TRDN AI', color: '#00F0FF', isImage: true },
+    { key: 'SPAI', icon: '/agent/agentlogo.png', label: 'WLFI AI', color: '#00F0FF', isImage: true },
     { key: 'invite', icon: BsPeople, label: 'Invite', color: '#FFD500' },
     { key: 'earn', icon: PiCoinsLight, label: 'Earn', color: '#FF4E00' }
   ];
@@ -324,7 +324,7 @@ const NavigationButtons = ({ setActiveTab, earningTimer, startEarningTimer }) =>
               whileHover={{ opacity: 1 }}
             />
             {item.isImage ? (
-              <Image src={item.icon} alt={item.label} width={40} height={40} className="relative z-10 scale-125" />
+              <Image src={item.icon} alt={item.label} width={60} height={60} className="relative z-10 scale-200 py-3" />
             ) : (
               <item.icon size={35} className="relative z-10 text-white" />
             )}
@@ -434,7 +434,7 @@ function TelegramMiniApp() {
   const TopNav = () => (
     <motion.div className="w-full flex justify-between items-center pb-6 px-1">
       <motion.div>
-        <Image src="/logo.png" alt="TRDN" width={100} height={60} priority className='scale-150' />
+        <Image src="/logo.png" alt="WLFI" width={100} height={60} priority className='scale-150' />
       </motion.div>
       
       <motion.div 
@@ -444,7 +444,7 @@ function TelegramMiniApp() {
         <motion.p 
           className="text-[#00F0FF] text-lg font-bold"
         >
-          {user?.first_name || 'TRDN User'}
+          {user?.first_name || 'WLFI User'}
         </motion.p>
       </motion.div>
     </motion.div>
