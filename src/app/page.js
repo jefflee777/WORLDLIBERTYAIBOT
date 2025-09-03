@@ -214,24 +214,19 @@ const SocialTask = () => {
       addSpaiPoints(1000);
       setTwitterFollowCompleted(true);
       hapticFeedback('success');
-      window.open('https://x.com/aitradonx', '_blank');
+      window.open('https://x.com/worldlibertyai', '_blank');
     }
   };
 
   return (
     <motion.div 
-      className="glass glass-p border border-[#36FF00]/20 rounded-2xl -mt-20 mb-6 relative overflow-hidden"
+      className="glass glass-p border border-[#36FF00]/20 rounded-2xl -mt-7 mb-6 relative overflow-hidden"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.3 }}
       whileHover={{ scale: 1.02 }}
     >
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-r from-[#36FF00]/5 to-[#00F0FF]/5"
-        animate={{ opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      />
-      <div className="relative z-10 p-2 flex items-center justify-between">
+      <div className="relative z-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <motion.div 
             className="w-12 h-12 bg-[#0B0B0C] border border-[#E6E6E6]/20 rounded-xl flex items-center justify-center"
