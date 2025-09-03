@@ -16,7 +16,7 @@ const TaskCenter = () => {
   const handlePurchasePass = (count) => {
     const success = purchasePass(count);
     if (!success) {
-      setError('Insufficient TRDN Points');
+      setError('Insufficient WLFI Points');
       setTimeout(() => setError(null), 3000);
     }
   };
@@ -29,18 +29,18 @@ const TaskCenter = () => {
   };
 
   const TradonAIIcon = () => (
-    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center shadow-lg">
-    <Image src='/agent/agentlogo.png' alt='logo' width={50} height={50}/>
+    <div className="w-12 h-12 rounded-full flex items-center justify-center">
+    <Image src='/agent/agentlogo.png' alt='logo' width={50} height={50} className='scale-150'/>
     </div>
   );
 
   return (
-    <div className="text-gray-200">
+    <div className="text-gray-200 pb-14">
       {/* Header */}
       <div className="flex items-center justify-between pb-4">
         <h2 className="text-3xl font-semibold text-gray-200">Mission Control</h2>
-        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center shadow-lg">
-        <Image src='/agent/agentlogo.png' alt='logo' width={50} height={50}/>
+        <div className="w-12 h-12 rounded-full flex items-center justify-center">
+        <Image src='/agent/agentlogo.png' alt='logo' width={50} height={50} className='scale-200'/>
         </div>
       </div>
 
@@ -63,7 +63,7 @@ const TaskCenter = () => {
                 <TradonAIIcon />
                 <div>
                   <h4 className="text-gray-200 font-semibold">Neural Calibration</h4>
-                  <p className="text-gray-300 text-sm">100 TRDN TOKENS</p>
+                  <p className="text-gray-300 text-sm">100 WLFI TOKENS</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -93,7 +93,7 @@ const TaskCenter = () => {
                 <TradonAIIcon />
                 <div>
                   <h4 className="text-gray-200 font-semibold">Amplify Signal</h4>
-                  <p className="text-gray-300 text-sm">1K TRDN TOKENS</p>
+                  <p className="text-gray-300 text-sm">1K WLFI TOKENS</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -134,7 +134,7 @@ const TaskCenter = () => {
                 <TradonAIIcon />
                 <div>
                   <h4 className="text-gray-200 font-semibold">Join Network</h4>
-                  <p className="text-gray-300 text-sm">1K TRDN TOKENS</p>
+                  <p className="text-gray-300 text-sm">1K WLFI TOKENS</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -169,7 +169,7 @@ const TaskCenter = () => {
                 <TradonAIIcon />
                 <div>
                   <h4 className="text-gray-200 font-semibold">Expand Network</h4>
-                  <p className="text-gray-300 text-sm">5K TRDN TOKENS</p>
+                  <p className="text-gray-300 text-sm">5K WLFI TOKENS</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -195,7 +195,9 @@ const TaskCenter = () => {
       </div>
       {/* Description */}
       <p className="text-gray-200 mb-6 text-center leading-relaxed">
-          <span className="font-semibold text-gray-200">Use TRDN Tokens to purchase AI Licenses and activate your neural pathways.</span>  Once activated, you can access quantum trading algorithms and earn rewards through elite market predictions.
+                Use WLFI Tokens to purchase AI Licenses and activate your neural pathways. 
+                Once activated, you can access quantum trading algorithms and earn rewards 
+                through elite market predictions.
         </p>
 
         {error && (
@@ -210,13 +212,13 @@ const TaskCenter = () => {
             onClick={() => handlePurchasePass(1)}
             className="flex-1 glass-light glass-blue py-4 rounded-2xl text-gray-200 font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
-            1 LICENSE / 500 TRDN
+            1 LICENSE / 500 WLFI
           </button>
           <button
             onClick={() => handlePurchasePass(5)}
             className="flex-1 glass-light glass-blue py-4 rounded-2xl text-gray-200 font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
-            5 LICENSES / 2K TRDN
+            5 LICENSES / 2K WLFI
           </button>
         </div>
       <div className='h-20'/>
