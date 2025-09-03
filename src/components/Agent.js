@@ -22,6 +22,7 @@ import {
   Star,
   Settings
 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function WLFIMobileAgent() {
   const [conversation, setConversation] = useState([
@@ -79,7 +80,7 @@ export default function WLFIMobileAgent() {
   useEffect(() => {
     const fetchData = () => {
       setMarketData({
-        btc: { price: 45250 + Math.random() * 1000, change: (Math.random() - 0.5) * 6 },
+        btc: { price: 110000 + Math.random() * 6000, change: (Math.random() - 0.5) * 6 },
         eth: { price: 2850 + Math.random() * 200, change: (Math.random() - 0.5) * 8 }
       });
     };
@@ -345,9 +346,9 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
               <div className={`max-w-[85%] ${msg.role === 'user' ? 'order-2' : 'order-1'}`}>
                 {msg.role === 'assistant' && (
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#e7ac08] to-[#fdd949] flex items-center justify-center">
-                      <Brain className="w-3 h-3 text-[#171412]" />
-                    </div>
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center">
+                    <Image src='/logo.png' alt='logo' width={40} height={40} className='scale-200'/>
+                  </div>
                     <span className="text-xs text-[#aaa29d]">WLFI AI • {msg.timestamp}</span>
                     {msg.confidence && (
                       <div className="flex items-center gap-1">
@@ -387,8 +388,8 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
             >
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#e7ac08] to-[#fdd949] flex items-center justify-center">
-                    <Brain className="w-3 h-3 text-[#171412]" />
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center">
+                    <Image src='/logo.png' alt='logo' width={40} height={40} className='scale-200'/>
                   </div>
                   <span className="text-xs text-[#aaa29d]">WLFI AI analyzing...</span>
                 </div>
