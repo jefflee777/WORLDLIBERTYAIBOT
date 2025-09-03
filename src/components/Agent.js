@@ -81,7 +81,7 @@ export default function WLFIMobileAgent() {
     const fetchData = () => {
       setMarketData({
         btc: { price: 110000 + Math.random() * 6000, change: (Math.random() - 0.5) * 6 },
-        eth: { price: 2850 + Math.random() * 200, change: (Math.random() - 0.5) * 8 }
+        eth: { price: 4450 + Math.random() * 200, change: (Math.random() - 0.5) * 8 }
       });
     };
     
