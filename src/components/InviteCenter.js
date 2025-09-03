@@ -66,7 +66,7 @@ Join the revolution: ${inviteLink}`;
   };
 
   return (
-    <div className="min-h-screen text-[#E6E6E6] overflow-hidden">
+    <div className="min-h-screen text-[#E6E6E6] overflow-hidden pb-20">
       <div className="relative z-10 max-w-md mx-auto">
         
         {/* Enhanced Header */}
@@ -161,7 +161,7 @@ Join the revolution: ${inviteLink}`;
             <div className="grid grid-cols-2 gap-4 mb-6">
               <motion.button
                 onClick={handleInviteTraders}
-                className="glass-button py-4 px-6 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center gap-2"
+                className="glass py-4 px-6 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
