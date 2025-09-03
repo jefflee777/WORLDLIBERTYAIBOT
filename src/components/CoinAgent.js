@@ -1,44 +1,92 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TrendingUp, TrendingDown, Plus, Brain, Target, AlertTriangle, DollarSign, Calendar, BarChart3, Sparkles, ChevronDown, ChevronUp, Zap, Shield, Clock, Activity, Eye, Star, Filter, RefreshCw } from 'lucide-react';
-import Image from 'next/image';
+import { 
+  TrendingUp, 
+  TrendingDown, 
+  Target, 
+  Activity, 
+  Eye, 
+  Bookmark,
+  MessageCircle,
+  Send,
+  X,
+  Sparkles,
+  Search,
+  ChevronDown,
+  ChevronUp,
+  Star,
+  ExternalLink
+} from 'lucide-react';
 
-export default function CoinAgent() {
+export default function WLFIOptimizedAgent() {
   const [coins, setCoins] = useState([]);
-  const [error, setError] = useState(null);
+  const [filteredCoins, setFilteredCoins] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [aiAnalysis, setAiAnalysis] = useState({});
   const [analysisLoading, setAnalysisLoading] = useState({});
   const [expandedCards, setExpandedCards] = useState({});
-  const [selectedFilter, setSelectedFilter] = useState('ALL');
-  const [analysisCount, setAnalysisCount] = useState(0);
-  const [TRDNPower, setTRDNPower] = useState(92);
-  const [activeMode, setActiveMode] = useState('DEEP_SCAN');
+  const [watchlist, setWatchlist] = useState(new Set());
+  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
 
+  const chatEndRef = useRef(null);
+
+  // Load saved watchlist
+  useEffect(() => {
+    const saved = localStorage.getItem('wlfi-watchlist');
+    if (saved) setWatchlist(new Set(JSON.parse(saved)));
+  }, []);
+
+  // Save watchlist
+  useEffect(() => {
+    localStorage.setItem('wlfi-watchlist', JSON.stringify([...watchlist]));
+  }, [watchlist]);
+
+  // Fetch top 10 coins + WLFI
   useEffect(() => {
     async function fetchCoins() {
       try {
         setLoading(true);
-        setActiveMode('SCANNING');
-        const response = await fetch('/api/coins');
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch coin data');
-        }
-
-        setCoins(data);
-        setError(null);
-        setActiveMode('ANALYZING');
+        const response = await fetch(
+          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=24h'
+        );
         
-        // Staggered AI analysis
-        data.forEach((coin, index) => {
-          setTimeout(() => getComprehensiveAIAnalysis(coin), index * 1200);
+        if (!response.ok) throw new Error('Failed to fetch');
+        
+        const data = await response.json();
+        
+        // Create WLFI special card
+        const wlfiCard = {
+          id: 'wlfi',
+          symbol: 'wlfi',
+          name: 'World Liberty AI',
+          image: 'https://via.placeholder.com/64/e7ac08/171412?text=WLFI',
+          current_price: null,
+          market_cap: null,
+          market_cap_rank: null,
+          price_change_percentage_24h: null,
+          isComingSoon: true,
+          maxSupply: '1,000,000,000',
+          status: 'Pre-Launch',
+          description: 'Revolutionary AI-powered financial intelligence platform launching soon. Join our community for exclusive updates!'
+        };
+
+        const allCoins = [wlfiCard, ...data];
+        setCoins(allCoins);
+        setFilteredCoins(allCoins);
+        
+        // Start AI analysis for real coins only
+        data.slice(0, 5).forEach((coin, index) => {
+          setTimeout(() => getAIAnalysis(coin), index * 1000);
         });
-      } catch (err) {
-        setError(err.message);
+        
+      } catch (error) {
+        console.error('Fetch error:', error);
       } finally {
         setLoading(false);
       }
@@ -47,521 +95,462 @@ export default function CoinAgent() {
     fetchCoins();
   }, []);
 
-  const getComprehensiveAIAnalysis = async (coin) => {
+  // Search filter
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredCoins(coins);
+    } else {
+      const query = searchQuery.toLowerCase();
+      setFilteredCoins(
+        coins.filter(coin => 
+          coin.name.toLowerCase().includes(query) || 
+          coin.symbol.toLowerCase().includes(query)
+        )
+      );
+    }
+  }, [searchQuery, coins]);
+
+  const getAIAnalysis = async (coin) => {
     const coinKey = coin.symbol.toUpperCase();
-    
     setAnalysisLoading(prev => ({ ...prev, [coinKey]: true }));
     
     try {
-      const systemPrompt = `You are TRDN, an elite AI trading analyst with quantum processing capabilities. Analyze ${coin.name} (${coin.symbol}) with precision:
-
-      Market Data:
-      - Price: $${coin.priceUsd}
-      - 24h Change: ${coin.changePercent24Hr}%
-      - Volume: $${coin.volumeUsd24Hr}
-      - Rank: ${coin.rank}
-
-      Provide analysis in EXACT format:
-      VERDICT: [ACQUIRE/MONITOR/AVOID]
-      CONFIDENCE: [95/100 format]
-      THESIS: [One powerful insight - max 12 words]
-      TARGET_RETURN: [Expected % in 30 days]
-      RISK_GRADE: [A/B/C/D]
-      STRATEGIC_ANALYSIS: [2-3 sentences with market dynamics]
-      BULL_CASE: [2 strong advantages]
-      BEAR_CASE: [2 key concerns]
-      HORIZON: [7D/30D/90D] optimal timeframe
-      TRDN_SCORE: [1-100 overall rating]
+      const systemPrompt = `You are WLFI AI. Analyze ${coin.name} (${coin.symbol}) at $${coin.current_price}.
       
-      Be sharp, data-driven, and actionable.`;
+      Respond with:
+      VERDICT: [ACCUMULATE/MONITOR/DIVEST]
+      CONFIDENCE: [75/100 format]
+      THESIS: [Sharp insight - max 10 words]
+      WLFI_SCORE: [1-100 rating]`;
 
-      const response = await fetch("/api/agent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await fetch('/api/agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: [
-            { role: "system", content: systemPrompt },
-            { 
-              role: "user", 
-              content: `TRDN, analyze ${coin.name} at $${coin.priceUsd} with ${coin.changePercent24Hr}% movement` 
-            },
-          ],
-        }),
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: `Analyze ${coin.name} at current price` }
+          ]
+        })
       });
 
-      let data;
-      try {
-        const contentType = response.headers.get("Content-Type");
-        if (contentType && contentType.includes("application/json")) {
-          data = await response.json();
-        } else {
-          throw new Error("Invalid JSON response");
-        }
-      } catch (error) {
-        console.error("Response parsing error:", error);
-        throw new Error("Unexpected response format");
-      }
-
+      const data = await response.json();
+      
       if (data.reply) {
         const reply = data.reply;
-        
-        const verdict = reply.match(/VERDICT:\s*(ACQUIRE|MONITOR|AVOID)/i)?.[1]?.toUpperCase() || 'MONITOR';
-        const confidenceMatch = reply.match(/CONFIDENCE:\s*(\d+)\/100/i);
-        const confidence = confidenceMatch ? parseInt(confidenceMatch[1]) : 75;
-        const thesis = reply.match(/THESIS:\s*(.+)/i)?.[1]?.trim() || 'Market dynamics require deeper analysis';
-        const targetReturn = reply.match(/TARGET_RETURN:\s*(.+)/i)?.[1]?.trim() || '+8-15%';
-        const riskGrade = reply.match(/RISK_GRADE:\s*([A-D])/i)?.[1]?.toUpperCase() || 'B';
-        const strategicAnalysis = reply.match(/STRATEGIC_ANALYSIS:\s*(.+?)(?=BULL_CASE:|$)/is)?.[1]?.trim() || 'Market conditions show mixed signals with moderate volatility expected.';
-        const bullCase = reply.match(/BULL_CASE:\s*(.+?)(?=BEAR_CASE:|$)/is)?.[1]?.trim() || 'Strong fundamentals, Growing adoption';
-        const bearCase = reply.match(/BEAR_CASE:\s*(.+?)(?=HORIZON:|$)/is)?.[1]?.trim() || 'Market volatility, Regulatory risks';
-        const horizon = reply.match(/HORIZON:\s*(7D|30D|90D)/i)?.[1]?.toUpperCase() || '30D';
-        const TRDNScoreMatch = reply.match(/TRDN_SCORE:\s*(\d+)/i);
-        const TRDNScore = TRDNScoreMatch ? parseInt(TRDNScoreMatch[1]) : 70;
+        const verdict = reply.match(/VERDICT:\s*(ACCUMULATE|MONITOR|DIVEST)/i)?.[1] || 'MONITOR';
+        const confidence = parseInt(reply.match(/CONFIDENCE:\s*(\d+)\/100/i)?.[1]) || 75;
+        const thesis = reply.match(/THESIS:\s*(.+)/i)?.[1]?.trim() || 'Market analysis pending';
+        const wlfiScore = parseInt(reply.match(/WLFI_SCORE:\s*(\d+)/i)?.[1]) || 70;
         
         setAiAnalysis(prev => ({
           ...prev,
-          [coinKey]: {
-            verdict,
-            confidence,
-            thesis,
-            targetReturn,
-            riskGrade,
-            strategicAnalysis,
-            bullCase: bullCase.split(/[,\n]/).map(p => p.trim()).filter(p => p).slice(0, 2),
-            bearCase: bearCase.split(/[,\n]/).map(c => c.trim()).filter(c => c).slice(0, 2),
-            horizon,
-            TRDNScore,
-            timestamp: Date.now()
-          }
+          [coinKey]: { verdict, confidence, thesis, wlfiScore, timestamp: Date.now() }
         }));
-
-        setAnalysisCount(prev => prev + 1);
       }
     } catch (error) {
-      console.error("AI Analysis error:", error);
-      setAiAnalysis(prev => ({
-        ...prev,
-        [coinKey]: {
-          verdict: 'MONITOR',
-          confidence: 50,
-          thesis: 'Analysis temporarily unavailable',
-          targetReturn: 'TBD',
-          riskGrade: 'C',
-          strategicAnalysis: 'Unable to process market data at this time.',
-          bullCase: ['Market presence'],
-          bearCase: ['Data unavailable'],
-          horizon: '30D',
-          TRDNScore: 50,
-          timestamp: Date.now()
-        }
-      }));
+      console.error('AI Analysis error:', error);
     } finally {
       setAnalysisLoading(prev => ({ ...prev, [coinKey]: false }));
     }
   };
 
-  const toggleCardExpansion = (coinKey) => {
+  const toggleWatchlist = (coinId) => {
+    setWatchlist(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(coinId)) {
+        newSet.delete(coinId);
+      } else {
+        newSet.add(coinId);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleExpanded = (coinKey) => {
     setExpandedCards(prev => ({
       ...prev,
       [coinKey]: !prev[coinKey]
     }));
   };
 
-  const getVerdictStyle = (verdict) => {
-    switch (verdict) {
-      case 'ACQUIRE':
-        return 'text-[#36FF00] bg-[#36FF00]/10 border-[#36FF00]/30';
-      case 'AVOID':
-        return 'text-[#FF4E00] bg-[#FF4E00]/10 border-[#FF4E00]/30';
-      default:
-        return 'text-[#FFD500] bg-[#FFD500]/10 border-[#FFD500]/30';
+  const openCoinChat = (coin) => {
+    setSelectedCoin(coin);
+    setChatMessages([
+      {
+        role: 'assistant',
+        content: coin.isComingSoon 
+          ? `🚀 **${coin.name}** is launching soon! \n\nJoin our community on X for exclusive updates and early access information.`
+          : `🧠 **WLFI AI Analysis**: ${coin.name} (${coin.symbol.toUpperCase()})\n\n**Current Price**: $${coin.current_price?.toFixed(4)}\n**24h Change**: ${coin.price_change_percentage_24h?.toFixed(2)}%\n\nWhat would you like to know about ${coin.name}?`,
+        timestamp: Date.now()
+      }
+    ]);
+  };
+
+  const sendChatMessage = async () => {
+    if (!chatInput.trim() || chatLoading) return;
+
+    const userMessage = { role: 'user', content: chatInput, timestamp: Date.now() };
+    setChatMessages(prev => [...prev, userMessage]);
+    setChatInput('');
+    setChatLoading(true);
+
+    try {
+      const response = await fetch('/api/agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [
+            { 
+              role: 'system', 
+              content: `You are WLFI AI assistant. Provide concise, helpful analysis about ${selectedCoin.name}. Be professional and engaging.` 
+            },
+            ...chatMessages.slice(-4),
+            userMessage
+          ]
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.reply) {
+        setChatMessages(prev => [...prev, {
+          role: 'assistant',
+          content: data.reply,
+          timestamp: Date.now()
+        }]);
+      }
+    } catch (error) {
+      setChatMessages(prev => [...prev, {
+        role: 'assistant',
+        content: "⚠️ I'm experiencing technical difficulties. Please try again later.",
+        timestamp: Date.now()
+      }]);
+    } finally {
+      setChatLoading(false);
     }
   };
-
-  const getRiskGradeColor = (grade) => {
-    switch (grade) {
-      case 'A': return 'text-[#36FF00] bg-[#36FF00]/10';
-      case 'B': return 'text-[#FFD500] bg-[#FFD500]/10';
-      case 'C': return 'text-[#FF4E00] bg-[#FF4E00]/10';
-      case 'D': return 'text-[#FF007C] bg-[#FF007C]/10';
-      default: return 'text-[#00F0FF] bg-[#00F0FF]/10';
-    }
-  };
-
-  const getConfidenceBar = (confidence) => {
-    const color = confidence >= 80 ? '#36FF00' : confidence >= 60 ? '#FFD500' : '#FF4E00';
-    return (
-      <div className="w-full bg-[#0B0B0C]/30 rounded-full h-2">
-        <motion.div 
-          className="h-full rounded-full"
-          style={{ backgroundColor: color }}
-          initial={{ width: '0%' }}
-          animate={{ width: `${confidence}%` }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-        />
-      </div>
-    );
-  };
-
-  const filteredCoins = coins.filter(coin => {
-    if (selectedFilter === 'ALL') return true;
-    const analysis = aiAnalysis[coin.symbol.toUpperCase()];
-    return analysis?.verdict === selectedFilter;
-  });
 
   const formatPrice = (price) => {
-    if (price >= 1000) return `$${(price/1000).toFixed(2)}K`;
-    if (price >= 1) return `$${price.toFixed(4)}`;
-    return `$${price.toFixed(6)}`;
+    if (!price) return 'N/A';
+    return price >= 1000 ? `$${(price/1000).toFixed(2)}K` : `$${price.toFixed(4)}`;
   };
 
-  const formatPercentage = (percent) => {
-    const sign = percent >= 0 ? '+' : '';
-    return `${sign}${percent.toFixed(2)}%`;
+  const formatChange = (change) => {
+    if (!change && change !== 0) return 'N/A';
+    return `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
   };
+
+  const getVerdictStyle = (verdict) => {
+    switch (verdict) {
+      case 'ACCUMULATE': return 'text-[#4ade80] bg-[#4ade80]/10 border-[#4ade80]/30';
+      case 'DIVEST': return 'text-[#f87171] bg-[#f87171]/10 border-[#f87171]/30';
+      default: return 'text-[#fdd949] bg-[#fdd949]/10 border-[#fdd949]/30';
+    }
+  };
+
+  // Scroll chat to bottom
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages]);
 
   return (
-    <div className="min-h-screen text-[#E6E6E6]">
-      {/* Enhanced Header */}
+    <div className="min-h-screen text-[#fafaf9]">
+      {/* Search Bar */}
       <motion.div 
-        className="glass glass-p-dark my-6 border border-[#00F0FF]/20"
+        className="glass glass-edges mb-8"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <motion.div 
-              className="relative w-12 h-12 rounded-xl border border-[#00F0FF]/40 bg-[#0B0B0C] flex items-center justify-center"
-              animate={{ 
-                borderColor: activeMode === 'SCANNING' ? '#FF007C' : 
-                            activeMode === 'ANALYZING' ? '#FFD500' : '#00F0FF'
-              }}
-            >
-              <Brain className="w-6 h-6 text-[#00F0FF]" />
-              {activeMode === 'SCANNING' && (
-                <motion.div
-                  className="absolute inset-0 rounded-xl border-2 border-[#FF007C]"
-                  animate={{ scale: [1, 1.1, 1], opacity: [1, 0.5, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              )}
-            </motion.div>
-            <div>
-              <h1 className="text-xl font-bold text-[#E6E6E6]">TRDN Intelligence</h1>
-              <p className="text-sm text-[#00F0FF]">
-                {activeMode === 'SCANNING' && 'Quantum market scanning...'}
-                {activeMode === 'ANALYZING' && 'Deep neural analysis active...'}
-                {activeMode === 'DEEP_SCAN' && 'Elite trading insights ready'}
-              </p>
-            </div>
-          </div>
-          
-          <motion.button
-            className="border border-[#00F0FF]/30 p-2 rounded-xl hover:bg-[#00F0FF]/10 transition-colors"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => window.location.reload()}
-          >
-            <RefreshCw className="w-5 h-5 text-[#00F0FF]" />
-          </motion.button>
-        </div>
-
-        {/* Stats Dashboard */}
-        <div className="grid grid-cols-4 gap-4 text-center">
-          <div>
-            <div className="text-sm text-[#E6E6E6]/60">Power</div>
-            <div className="text-[#36FF00] font-bold">{TRDNPower}%</div>
-          </div>
-          <div>
-            <div className="text-sm text-[#E6E6E6]/60">Analyzed</div>
-            <div className="text-[#00F0FF] font-bold">{analysisCount}/{coins.length}</div>
-          </div>
-          <div>
-            <div className="text-sm text-[#E6E6E6]/60">Acquire</div>
-            <div className="text-[#36FF00] font-bold">
-              {Object.values(aiAnalysis).filter(a => a.verdict === 'ACQUIRE').length}
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#E6E6E6]/60">Avoid</div>
-            <div className="text-[#FF4E00] font-bold">
-              {Object.values(aiAnalysis).filter(a => a.verdict === 'AVOID').length}
-            </div>
+        <div className="glass-content p-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#e7ac08]" />
+            <input
+              type="text"
+              placeholder="Search coins by name or symbol..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 bg-[#171412]/50 border border-[#44403c]/40 rounded-xl text-[#fafaf9] placeholder-[#aaa29d] focus:outline-none focus:ring-2 focus:ring-[#e7ac08]/50 focus:border-[#e7ac08]/60 transition-all duration-300"
+            />
           </div>
         </div>
       </motion.div>
 
-      {/* Filter Bar */}
-      <motion.div 
-        className="flex items-center justify-between px-2 mb-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        <div className="flex items-center space-x-2">
-          <Filter className="w-4 h-4 text-[#00F0FF]" />
-          <div className="flex space-x-2">
-            {['ALL', 'ACQUIRE', 'MONITOR', 'AVOID'].map((filter) => (
-              <motion.button
-                key={filter}
-                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
-                  selectedFilter === filter
-                    ? 'bg-[#00F0FF]/20 text-[#00F0FF] border border-[#00F0FF]/40'
-                    : 'text-[#E6E6E6]/60 hover:text-[#E6E6E6] border border-[#E6E6E6]/10'
-                }`}
-                onClick={() => setSelectedFilter(filter)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {filter}
-              </motion.button>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-
+      {/* Loading State */}
       {loading && (
         <div className="flex flex-col items-center justify-center py-16">
           <motion.div 
-            className="w-16 h-16 border-4 border-[#00F0FF]/20 border-t-[#00F0FF] rounded-full mb-4"
+            className="w-12 h-12 border-2 border-[#e7ac08]/30 border-t-[#e7ac08] rounded-full"
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
           />
-          <p className="text-[#00F0FF] text-sm font-medium">
-            TRDN initializing quantum processors...
+          <p className="text-[#e7ac08] mt-4 text-lg font-medium">
+            Loading top cryptocurrencies...
           </p>
         </div>
       )}
 
-      <div className="space-y-4 max-w-md mx-auto mb-24">
+      {/* Coins Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence>
           {filteredCoins.map((coin, index) => {
             const coinKey = coin.symbol.toUpperCase();
             const analysis = aiAnalysis[coinKey];
             const isAnalysisLoading = analysisLoading[coinKey];
             const isExpanded = expandedCards[coinKey];
+            const isWatched = watchlist.has(coin.id);
             
             return (
               <motion.div
-                key={coin.symbol}
-                className="relative group"
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
+                key={coin.id}
+                className="group relative"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
                 transition={{ 
                   duration: 0.5, 
-                  delay: index * 0.05,
+                  delay: index * 0.1,
                   ease: [0.25, 0.46, 0.45, 0.94]
                 }}
-                whileHover={{ y: -3 }}
+                whileHover={{ y: -5 }}
               >
-                <div className="relative glass glass-p border border-[#E6E6E6]/10 hover:border-[#00F0FF]/30 transition-all duration-300">
-                  {/* Analysis Loading Indicator */}
-                  {isAnalysisLoading && (
-                    <motion.div
-                      className="absolute top-0 left-0 h-1 bg-[#00F0FF] rounded-t-lg"
-                      animate={{ width: ['0%', '100%'] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                  )}
-                  
-                  <div className="p-4">
-                    {/* Enhanced Header */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-3">
+                <div className={`glass glass-edges glass-particles h-full ${
+                  coin.isComingSoon ? 'border-[#e7ac08]/60' : ''
+                }`}>
+                  <div className="glass-content p-6">
+                    
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-4">
                         <div className="relative">
-                          <div className="w-12 h-12 bg-[#0B0B0C] rounded-xl border border-[#E6E6E6]/20 flex items-center justify-center overflow-hidden">
-                            {coin.image ? (
-                              <img src={coin.image} alt={coin.name} className="w-8 h-8 rounded-full" />
-                            ) : (
-                              <span className="text-lg font-bold text-[#E6E6E6]">
-                                {coin.symbol?.charAt(0)}
-                              </span>
-                            )}
+                          <div className="w-12 h-12 bg-[#171412] rounded-xl border border-[#44403c]/20 flex items-center justify-center overflow-hidden">
+                            <img 
+                              src={coin.image} 
+                              alt={coin.name} 
+                              className="w-8 h-8 rounded-full"
+                              onError={(e) => {
+                                e.target.src = `https://via.placeholder.com/32/e7ac08/171412?text=${coin.symbol.charAt(0).toUpperCase()}`
+                              }}
+                            />
                           </div>
-                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#0B0B0C] rounded-full border border-[#E6E6E6]/20 flex items-center justify-center">
-                            <span className="text-xs font-bold text-[#00F0FF]">#{coin.rank}</span>
-                          </div>
+                          {coin.market_cap_rank <= 10 && !coin.isComingSoon && (
+                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-[#fdd949] text-[#171412] text-xs font-bold rounded-full flex items-center justify-center">
+                              {coin.market_cap_rank}
+                            </div>
+                          )}
+                          {coin.isComingSoon && (
+                            <div className="absolute -top-1 -right-1 w-6 h-6 bg-[#e7ac08] text-[#171412] text-xs font-bold rounded-full flex items-center justify-center">
+                              🚀
+                            </div>
+                          )}
                         </div>
                         
                         <div>
-                          <div className="flex items-center space-x-2">
-                            <h2 className="text-lg font-bold text-[#E6E6E6]">
+                          <div className="flex items-center gap-2">
+                            <h2 className="text-lg font-bold text-[#fafaf9]">
                               {coin.symbol?.toUpperCase()}
                             </h2>
-                            {analysis?.TRDNScore >= 80 && (
-                              <Star className="w-4 h-4 text-[#FFD500] fill-current" />
+                            {analysis?.wlfiScore >= 85 && (
+                              <Star className="w-4 h-4 text-[#fdd949] fill-current" />
                             )}
                           </div>
-                          <p className="text-sm text-[#E6E6E6]/60">{coin.name}</p>
+                          <p className="text-sm text-[#aaa29d] line-clamp-1">{coin.name}</p>
                         </div>
                       </div>
 
-                      <div className="text-right">
-                        <div className="text-xl font-bold text-[#E6E6E6] mb-1">
-                          {formatPrice(parseFloat(coin.priceUsd))}
-                        </div>
-                        <div className={`flex items-center space-x-1 ${
-                          coin.changePercent24Hr >= 0 ? 'text-[#36FF00]' : 'text-[#FF4E00]'
-                        }`}>
-                          {coin.changePercent24Hr >= 0 ? (
-                            <TrendingUp className="w-4 h-4" />
-                          ) : (
-                            <TrendingDown className="w-4 h-4" />
-                          )}
-                          <span className="text-sm font-medium">
-                            {formatPercentage(coin.changePercent24Hr)}
-                          </span>
-                        </div>
-                      </div>
+                      {!coin.isComingSoon && (
+                        <motion.button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleWatchlist(coin.id);
+                          }}
+                          className="p-2 rounded-lg border border-[#44403c]/30 hover:border-[#fdd949]/60 transition-colors"
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Bookmark 
+                            className={`w-4 h-4 ${isWatched ? 'text-[#fdd949] fill-current' : 'text-[#aaa29d]'}`}
+                          />
+                        </motion.button>
+                      )}
                     </div>
 
-                    {/* TRDN Analysis Preview */}
-                    <div className="mb-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 rounded-full overflow-hidden border border-[#00F0FF]/40">
-                            <Image src="/agent/agentlogo.png" alt="TRDN" width={24} height={24} />
-                          </div>
-                          <span className="text-sm font-bold text-[#00F0FF]">TRDN Analysis</span>
+                    {/* WLFI Coming Soon Content */}
+                    {coin.isComingSoon ? (
+                      <div className="space-y-4">
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-[#e7ac08] mb-2">COMING SOON</div>
+                          <h3 className="text-xl font-bold text-[#fafaf9] mb-2">World Liberty AI</h3>
+                          <h4 className="text-lg font-semibold text-[#fdd949] mb-4">WLFI</h4>
                         </div>
                         
-                        <motion.button
-                          onClick={() => toggleCardExpansion(coinKey)}
-                          className="flex items-center space-x-1 text-xs text-[#E6E6E6]/60 hover:text-[#00F0FF]"
-                          whileHover={{ scale: 1.05 }}
+                        <p className="text-[#d7d3d0] leading-relaxed text-center">
+                          {coin.description}
+                        </p>
+                        
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center p-3 bg-[#171412]/40 rounded-lg border border-[#44403c]/20">
+                            <span className="text-[#aaa29d]">Max Supply:</span>
+                            <span className="text-[#fafaf9] font-semibold">{coin.maxSupply} WLFI</span>
+                          </div>
+                          <div className="flex justify-between items-center p-3 bg-[#171412]/40 rounded-lg border border-[#44403c]/20">
+                            <span className="text-[#aaa29d]">Status:</span>
+                            <span className="text-[#fdd949] font-semibold">{coin.status}</span>
+                          </div>
+                        </div>
+                        
+                        <motion.a
+                          href="https://twitter.com/worldlibertyai"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="glass-button w-full py-3 flex items-center justify-center gap-2 font-bold"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          {isExpanded ? (
-                            <>
-                              <span>Collapse</span>
-                              <ChevronUp className="w-4 h-4" />
-                            </>
-                          ) : (
-                            <>
-                              <span>Expand</span>
-                              <ChevronDown className="w-4 h-4" />
-                            </>
-                          )}
-                        </motion.button>
+                          Join WLFI on X
+                          <ExternalLink className="w-4 h-4" />
+                        </motion.a>
                       </div>
-                      
-                      {isAnalysisLoading ? (
-                        <motion.div 
-                          className="flex items-center space-x-2 py-2"
-                          animate={{ opacity: [0.5, 1, 0.5] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        >
-                          <Activity className="w-4 h-4 text-[#00F0FF]" />
-                          <span className="text-sm text-[#00F0FF]">Deep quantum analysis in progress...</span>
-                        </motion.div>
-                      ) : analysis ? (
-                        <motion.div 
-                          className="space-y-3"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className={`inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg border ${getVerdictStyle(analysis.verdict)}`}>
-                              <Target className="w-4 h-4" />
-                              <span className="text-sm font-bold">{analysis.verdict}</span>
+                    ) : (
+                      /* Regular Coin Content */
+                      <>
+                        {/* Price Section */}
+                        <div className="mb-6">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="text-2xl font-bold text-[#fdd949]">
+                              {formatPrice(coin.current_price)}
                             </div>
-                            
-                            <div className="text-right">
-                              <div className="text-sm font-bold text-[#E6E6E6]">{analysis.TRDNScore}/100</div>
-                              <div className="text-xs text-[#E6E6E6]/60">TRDN Score</div>
-                            </div>
+                            {coin.price_change_percentage_24h !== null && (
+                              <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-sm font-bold ${
+                                coin.price_change_percentage_24h >= 0 
+                                  ? 'text-[#4ade80] bg-[#4ade80]/10' 
+                                  : 'text-[#f87171] bg-[#f87171]/10'
+                              }`}>
+                                {coin.price_change_percentage_24h >= 0 ? (
+                                  <TrendingUp className="w-4 h-4" />
+                                ) : (
+                                  <TrendingDown className="w-4 h-4" />
+                                )}
+                                {formatChange(coin.price_change_percentage_24h)}
+                              </div>
+                            )}
                           </div>
                           
-                          <div className="glass glass-p-dark p-3 rounded-lg">
-                            <div className="flex items-start space-x-2">
-                              <Brain className="w-4 h-4 text-[#00F0FF] mt-0.5 flex-shrink-0" />
-                              <p className="text-sm text-[#E6E6E6]/90 italic">"{analysis.thesis}"</p>
-                            </div>
-                          </div>
-
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className="text-[#E6E6E6]/60">Confidence</span>
-                              <span className="font-bold text-[#E6E6E6]">{analysis.confidence}%</span>
-                            </div>
-                            {getConfidenceBar(analysis.confidence)}
-                          </div>
-                        </motion.div>
-                      ) : (
-                        <div className="text-sm text-[#E6E6E6]/50 italic">
-                          Awaiting TRDN analysis...
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Expanded Analysis */}
-                    <AnimatePresence>
-                      {isExpanded && analysis && !isAnalysisLoading && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.4 }}
-                          className="border-t border-[#E6E6E6]/10 pt-4 space-y-4"
-                        >
-                          {/* Advanced Metrics */}
-                          <div className="grid grid-cols-3 gap-3">
-                            <div className="text-center p-3 bg-[#0B0B0C]/30 rounded-lg">
-                              <DollarSign className="w-5 h-5 text-[#36FF00] mx-auto mb-1" />
-                              <div className="text-xs text-[#E6E6E6]/60 mb-1">Target Return</div>
-                              <div className="text-sm font-bold text-[#36FF00]">{analysis.targetReturn}</div>
-                            </div>
-                            <div className="text-center p-3 bg-[#0B0B0C]/30 rounded-lg">
-                              <Shield className={`w-5 h-5 mx-auto mb-1 ${
-                                analysis.riskGrade === 'A' ? 'text-[#36FF00]' :
-                                analysis.riskGrade === 'B' ? 'text-[#FFD500]' :
-                                analysis.riskGrade === 'C' ? 'text-[#FF4E00]' : 'text-[#FF007C]'
-                              }`} />
-                              <div className="text-xs text-[#E6E6E6]/60 mb-1">Risk Grade</div>
-                              <div className={`text-sm font-bold px-2 py-1 rounded ${getRiskGradeColor(analysis.riskGrade)}`}>
-                                {analysis.riskGrade}
+                          <div className="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                              <span className="text-[#aaa29d]">Market Cap</span>
+                              <div className="text-[#fafaf9] font-semibold">
+                                {coin.market_cap ? `$${(coin.market_cap / 1e9).toFixed(2)}B` : 'N/A'}
                               </div>
                             </div>
-                            <div className="text-center p-3 bg-[#0B0B0C]/30 rounded-lg">
-                              <Clock className="w-5 h-5 text-[#00F0FF] mx-auto mb-1" />
-                              <div className="text-xs text-[#E6E6E6]/60 mb-1">Horizon</div>
-                              <div className="text-sm font-bold text-[#00F0FF]">{analysis.horizon}</div>
+                            <div>
+                              <span className="text-[#aaa29d]">Rank</span>
+                              <div className="text-[#fafaf9] font-semibold">#{coin.market_cap_rank}</div>
                             </div>
                           </div>
+                        </div>
 
-                          {/* Strategic Analysis */}
-                          <div className="glass glass-p-dark p-3 rounded-lg">
-                            <h4 className="text-sm font-bold text-[#E6E6E6] mb-2 flex items-center">
-                              <BarChart3 className="w-4 h-4 mr-2 text-[#00F0FF]" />
-                              Strategic Analysis
-                            </h4>
-                            <p className="text-sm text-[#E6E6E6]/80 leading-relaxed">{analysis.strategicAnalysis}</p>
+                        {/* AI Analysis */}
+                        <div className="border-t border-[#44403c]/30 pt-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                              <Sparkles className="w-4 h-4 text-[#e7ac08]" />
+                              <span className="text-sm font-medium text-[#e7ac08]">WLFI AI</span>
+                            </div>
+                            
+                            <motion.button
+                              onClick={() => toggleExpanded(coinKey)}
+                              className="flex items-center gap-1 text-xs text-[#aaa29d] hover:text-[#e7ac08] transition-colors"
+                              whileHover={{ scale: 1.05 }}
+                            >
+                              {isExpanded ? (
+                                <>
+                                  <span>Less</span>
+                                  <ChevronUp className="w-4 h-4" />
+                                </>
+                              ) : (
+                                <>
+                                  <span>More</span>
+                                  <ChevronDown className="w-4 h-4" />
+                                </>
+                              )}
+                            </motion.button>
                           </div>
+                          
+                          {isAnalysisLoading ? (
+                            <motion.div 
+                              className="flex items-center gap-2 py-3"
+                              animate={{ opacity: [0.5, 1, 0.5] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            >
+                              <Activity className="w-4 h-4 text-[#e7ac08]" />
+                              <span className="text-sm text-[#e7ac08]">Analyzing...</span>
+                            </motion.div>
+                          ) : analysis ? (
+                            <motion.div 
+                              className="space-y-3"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium ${getVerdictStyle(analysis.verdict)}`}>
+                                  <Target className="w-4 h-4" />
+                                  {analysis.verdict}
+                                </div>
+                                
+                                <div className="text-right">
+                                  <div className="text-sm font-bold text-[#fafaf9]">{analysis.wlfiScore}/100</div>
+                                  <div className="text-xs text-[#aaa29d]">WLFI Score</div>
+                                </div>
+                              </div>
+                              
+                              <div className="glass glass-light p-3 rounded-lg">
+                                <div className="flex items-start gap-2">
+                                  <Eye className="w-4 h-4 text-[#e7ac08] mt-0.5 flex-shrink-0" />
+                                  <p className="text-sm text-[#fafaf9] italic">"{analysis.thesis}"</p>
+                                </div>
+                              </div>
 
-                          {/* Bull vs Bear Case */}
-                          <div className="grid grid-cols-1 gap-3">
-                            <div className="p-3 rounded-lg border border-[#36FF00]/20 bg-[#36FF00]/5">
-                              <h4 className="text-sm font-bold text-[#36FF00] mb-2">🎯 Bull Case</h4>
-                              <ul className="space-y-1">
-                                {analysis.bullCase.map((point, idx) => (
-                                  <li key={idx} className="text-xs text-[#E6E6E6]/80">• {point}</li>
-                                ))}
-                              </ul>
+                              {isExpanded && (
+                                <motion.div
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: 'auto' }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  className="space-y-2"
+                                >
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-[#aaa29d]">Confidence</span>
+                                    <span className="font-bold text-[#fafaf9]">{analysis.confidence}%</span>
+                                  </div>
+                                  <div className="w-full bg-[#171412]/30 rounded-full h-2">
+                                    <motion.div 
+                                      className="h-full rounded-full bg-[#e7ac08]"
+                                      initial={{ width: '0%' }}
+                                      animate={{ width: `${analysis.confidence}%` }}
+                                      transition={{ duration: 1 }}
+                                    />
+                                  </div>
+                                </motion.div>
+                              )}
+                            </motion.div>
+                          ) : (
+                            <div className="text-sm text-[#aaa29d] italic py-2">
+                              Awaiting WLFI AI analysis...
                             </div>
-                            <div className="p-3 rounded-lg border border-[#FF4E00]/20 bg-[#FF4E00]/5">
-                              <h4 className="text-sm font-bold text-[#FF4E00] mb-2">⚠️ Bear Case</h4>
-                              <ul className="space-y-1">
-                                {analysis.bearCase.map((point, idx) => (
-                                  <li key={idx} className="text-xs text-[#E6E6E6]/80">• {point}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                          )}
+                          
+                          {/* Chat Button */}
+                          <motion.button
+                            onClick={() => openCoinChat(coin)}
+                            className="glass-button w-full mt-4 flex items-center justify-center gap-2"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <MessageCircle className="w-4 h-4" />
+                            Chat with WLFI AI
+                          </motion.button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -569,6 +558,116 @@ export default function CoinAgent() {
           })}
         </AnimatePresence>
       </div>
+
+      {/* Empty Search State */}
+      {!loading && filteredCoins.length === 0 && (
+        <div className="text-center py-16">
+          <Search className="w-16 h-16 text-[#aaa29d] mx-auto mb-4 opacity-50" />
+          <p className="text-[#aaa29d] text-xl">No coins found</p>
+          <p className="text-[#aaa29d] text-sm mt-2">Try adjusting your search query</p>
+        </div>
+      )}
+
+      {/* Chat Modal */}
+      <AnimatePresence>
+        {selectedCoin && (
+          <motion.div
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedCoin(null)}
+          >
+            <motion.div
+              className="glass glass-dark max-w-2xl w-full max-h-[80vh] flex flex-col"
+              initial={{ scale: 0.9, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 50 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="glass-content">
+                {/* Chat Header */}
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#44403c]/30">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#171412] border border-[#e7ac08]/30 rounded-xl overflow-hidden flex items-center justify-center">
+                      <img src={selectedCoin.image} alt={selectedCoin.name} className="w-8 h-8" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-[#fafaf9]">
+                        Chat about {selectedCoin.name}
+                      </h3>
+                      <p className="text-sm text-[#aaa29d]">
+                        {selectedCoin.symbol.toUpperCase()} {!selectedCoin.isComingSoon && `• ${formatPrice(selectedCoin.current_price)}`}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSelectedCoin(null)}
+                    className="p-2 rounded-lg hover:bg-[#44403c]/20 transition-colors"
+                  >
+                    <X className="w-5 h-5 text-[#aaa29d]" />
+                  </button>
+                </div>
+
+                {/* Chat Messages */}
+                <div className="flex-1 overflow-y-auto mb-4 space-y-4 max-h-96">
+                  {chatMessages.map((message, index) => (
+                    <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[80%] p-4 rounded-2xl ${
+                        message.role === 'user' 
+                          ? 'glass-button' 
+                          : 'glass glass-light'
+                      }`}>
+                        <div className="whitespace-pre-line leading-relaxed text-sm glass-content">
+                          {message.content}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {chatLoading && (
+                    <div className="flex justify-start">
+                      <div className="glass glass-light p-4 rounded-2xl">
+                        <div className="flex items-center gap-2 glass-content">
+                          <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse" />
+                          <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse delay-100" />
+                          <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse delay-200" />
+                          <span className="text-[#aaa29d] text-sm ml-2">WLFI AI is thinking...</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div ref={chatEndRef} />
+                </div>
+
+                {/* Chat Input */}
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    sendChatMessage();
+                  }}
+                  className="flex gap-3"
+                >
+                  <input
+                    type="text"
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    placeholder={`Ask about ${selectedCoin.name}...`}
+                    className="flex-1 p-3 bg-[#171412]/50 border border-[#44403c]/40 rounded-xl text-[#fafaf9] placeholder-[#aaa29d] focus:outline-none focus:ring-2 focus:ring-[#e7ac08]/50 focus:border-[#e7ac08]/60 transition-all duration-300"
+                    disabled={chatLoading}
+                  />
+                  <button
+                    type="submit"
+                    disabled={chatLoading || !chatInput.trim()}
+                    className="glass-button px-4 py-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                </form>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
