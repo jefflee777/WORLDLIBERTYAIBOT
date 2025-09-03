@@ -212,7 +212,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-md mx-auto bg-[#171412] text-[#fafaf9] overflow-hidden">
+    <div className="flex flex-col h-screen max-w-md mx-auto text-[#fafaf9] overflow-hidden">
       
       {/* Mobile Header */}
       <motion.div 
@@ -331,7 +331,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      <div className="flex-1 max-h-[30%] overflow-y-auto px-4 py-4 space-y-4">
         <AnimatePresence>
           {conversation.map((msg, index) => (
             <motion.div
