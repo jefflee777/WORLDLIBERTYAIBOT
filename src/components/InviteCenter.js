@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Copy, Share2, CheckCircle, Brain } from 'lucide-react';
+import { Copy, Share2, CheckCircle, Brain, Users, Gift, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 
 function InviteCenter() {
-  const [inviteCode] = useState('TRADON2025');
+  const [inviteCode] = useState('WLFI2025');
   const [copySuccess, setCopySuccess] = useState(false);
+  const [inviteStats, setInviteStats] = useState({ referred: 0, rewards: 0 });
 
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
       window.Telegram.WebApp.expand();
     }
+    
+    // Simulate loading user stats
+    setInviteStats({ referred: Math.floor(Math.random() * 10), rewards: Math.floor(Math.random() * 500) });
   }, []);
 
   const generateInviteLink = () => {
-    return `https://t.me/TradonAIbeta_Bot`;
+    return `https://t.me/WorldLibertyAI_Bot`;
   };
 
   const handleCopyCode = async () => {
     try {
       await navigator.clipboard.writeText(inviteCode);
       setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
+      setTimeout(() => setCopySuccess(false), 2500);
       
       if (window.Telegram?.WebApp?.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
@@ -34,148 +38,181 @@ function InviteCenter() {
 
   const handleInviteTraders = () => {
     const inviteLink = generateInviteLink();
-    const shareText = `🤖 Join TRADON - Elite AI Trading Platform!
+    const shareText = `🚀 Join World Liberty AI - Revolutionary Financial Intelligence!
 
-⚡ Neural network-powered market analysis
-📈 Quantum trading algorithms
-🎯 Elite trader community access
-💎 Earn TRDN tokens through AI missions
+🧠 AI-powered market analysis
+💎 Real-time crypto insights  
+🎯 Elite trading community access
+⚡ Earn WLFI tokens through missions
 
-My invite code: ${inviteCode}
+My exclusive code: ${inviteCode}
 
-Join the evolution: ${inviteLink}`;
+Join the revolution: ${inviteLink}`;
 
     if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`);
     } else {
       if (navigator.share) {
         navigator.share({
-          title: 'Join TRADON Elite Trading',
+          title: 'Join World Liberty AI',
           text: shareText,
           url: inviteLink
         });
       } else {
         navigator.clipboard.writeText(shareText);
-        alert('Elite invite copied to quantum clipboard!');
+        alert('Invite details copied to clipboard! 🎉');
       }
     }
   };
 
   return (
     <div className="min-h-screen text-[#E6E6E6] overflow-hidden">
-      <div className="relative z-10 max-w-md mx-auto">
-        {/* Header */}
+      <div className="relative z-10 max-w-md mx-auto px-4">
+        
+        {/* Enhanced Header */}
         <motion.div 
-          className="flex items-center justify-between mb-8"
+          className="flex items-center justify-between mb-8 pt-6"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
           <div>
-            <h1 className="text-3xl font-bold text-[#E6E6E6]">Invite Network</h1>
-            <p className="text-[#00F0FF] text-lg">Expand the TRADON ecosystem</p>
+            <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#e7ac08] to-[#fdd949]">
+              Invite Network
+            </h1>
+            <p className="text-[#e7ac08] text-lg">Expand the WLFI ecosystem</p>
           </div>
           <motion.div 
-            className="w-12 h-12 rounded-xl border border-[#00F0FF]/40 bg-[#0B0B0C] flex items-center justify-center"
+            className="w-12 h-12 rounded-xl border border-[#e7ac08]/40 bg-[#0B0B0C] flex items-center justify-center"
             animate={{ 
-              borderColor: ["rgba(0, 240, 255, 0.4)", "rgba(54, 255, 0, 0.4)", "rgba(0, 240, 255, 0.4)"]
+              borderColor: ["rgba(231, 172, 8, 0.4)", "rgba(253, 217, 73, 0.6)", "rgba(231, 172, 8, 0.4)"]
             }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            <Image src='/agent/agentlogo.png' alt='TRADON' width={32} height={32}/>
+            <Brain className="w-6 h-6 text-[#e7ac08]" />
           </motion.div>
         </motion.div>
 
-        {/* Hero Image */}
+        {/* Stats Cards */}
         <motion.div 
-          className="relative mb-12 flex items-center justify-center"
+          className="grid grid-cols-2 gap-4 mb-8"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <div className="glass glass-edges p-4 text-center">
+            <div className="flex items-center justify-center mb-2">
+              <Users className="w-5 h-5 text-[#4ade80]" />
+            </div>
+            <div className="text-2xl font-bold text-[#fafaf9]">{inviteStats.referred}</div>
+            <div className="text-sm text-[#aaa29d]">Invited</div>
+          </div>
+          <div className="glass glass-edges p-4 text-center">
+            <div className="flex items-center justify-center mb-2">
+              <Gift className="w-5 h-5 text-[#fdd949]" />
+            </div>
+            <div className="text-2xl font-bold text-[#fafaf9]">{inviteStats.rewards}</div>
+            <div className="text-sm text-[#aaa29d]">WLFI Earned</div>
+          </div>
+        </motion.div>
+
+        {/* Hero Logo */}
+        <motion.div 
+          className="relative mb-12 flex items-center justify-center"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
         >
           <motion.div
+            className="relative"
             animate={{ 
-              filter: ["hue-rotate(0deg)", "hue-rotate(120deg)", "hue-rotate(240deg)", "hue-rotate(360deg)"]
+              filter: [
+                "hue-rotate(0deg) drop-shadow(0 0 20px rgba(231, 172, 8, 0.5))", 
+                "hue-rotate(60deg) drop-shadow(0 0 30px rgba(253, 217, 73, 0.6))", 
+                "hue-rotate(0deg) drop-shadow(0 0 20px rgba(231, 172, 8, 0.5))"
+              ]
             }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Image src='/agent/agentlogo.png' alt='TRADON Core' width={320} height={320} quality={90}/>
+            <div className="w-64 h-64 rounded-full bg-gradient-to-br from-[#e7ac08] to-[#fdd949] flex items-center justify-center">
+              <Brain className="w-32 h-32 text-[#171412]" />
+            </div>
           </motion.div>
         </motion.div>
 
-        {/* Neural Access Code Section */}
+        {/* Main Invite Card */}
         <motion.div 
-          className="glass border border-[#00F0FF]/30 rounded-3xl p-8 relative overflow-hidden"
+          className="glass glass-edges glass-particles border border-[#e7ac08]/30 rounded-3xl p-8 relative overflow-hidden"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
         >
-          <div className="relative z-10 text-center">
+          <div className="glass-content relative z-10 text-center">
+            
             {/* Header */}
-            <div className="flex items-center justify-center space-x-3 mb-6">
-              <h2 className="text-2xl font-bold text-[#E6E6E6]">Neural Access Code</h2>
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <Sparkles className="w-6 h-6 text-[#fdd949]" />
+              <h2 className="text-2xl font-bold text-[#fafaf9]">Neural Access Code</h2>
             </div>
             
-            {/* Code Display */}
+            {/* Enhanced Code Display */}
             <motion.div 
-              className="bg-[#0B0B0C]/60 border border-[#00F0FF]/40 rounded-2xl p-6 mb-8 relative overflow-hidden"
+              className="bg-[#0B0B0C]/60 border border-[#e7ac08]/40 rounded-2xl p-6 mb-8 relative overflow-hidden"
               whileHover={{ 
-                borderColor: "rgba(0, 240, 255, 0.8)",
-                boxShadow: "0 0 30px rgba(0, 240, 255, 0.2)"
+                borderColor: "rgba(231, 172, 8, 0.8)",
+                boxShadow: "0 0 40px rgba(231, 172, 8, 0.3)"
               }}
               transition={{ duration: 0.3 }}
             >
-              {/* Code Scan Line Effect */}
+              {/* Scanning Animation */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00F0FF]/20 to-transparent"
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-[#e7ac08]/30 to-transparent"
                 animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
               />
               
               <motion.div 
-                className="font-mono text-3xl text-[#00F0FF] tracking-[0.3em] relative z-10"
+                className="font-mono text-4xl text-[#e7ac08] tracking-[0.4em] relative z-10 font-bold"
                 animate={{ 
                   textShadow: [
-                    "0 0 10px rgba(0, 240, 255, 0.8)", 
-                    "0 0 20px rgba(0, 240, 255, 1)", 
-                    "0 0 10px rgba(0, 240, 255, 0.8)"
+                    "0 0 15px rgba(231, 172, 8, 0.8)", 
+                    "0 0 25px rgba(253, 217, 73, 1)", 
+                    "0 0 15px rgba(231, 172, 8, 0.8)"
                   ]
                 }}
-                transition={{ duration: 2, repeat: Infinity }}
+                transition={{ duration: 2.5, repeat: Infinity }}
               >
                 {inviteCode}
               </motion.div>
+              
+              <div className="mt-3 text-sm text-[#aaa29d]">
+                Exclusive World Liberty AI Access
+              </div>
             </motion.div>
 
             {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 mb-6">
               <motion.button
                 onClick={handleInviteTraders}
-                className="glass border border-[#36FF00]/40 text-[#36FF00] font-bold  rounded-2xl transition-all duration-300"
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: "0 0 25px rgba(54, 255, 0, 0.4)",
-                  borderColor: "rgba(54, 255, 0, 0.8)"
-                }}
+                className="glass-button py-4 px-6 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center gap-2"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <div className="flex items-center justify-center space-x-2">
-                  <Share2 className="w-5 h-5" />
-                  <span>Share Network</span>
-                </div>
+                <Share2 className="w-5 h-5" />
+                <span>Share Network</span>
               </motion.button>
 
               <motion.button
                 onClick={handleCopyCode}
-                className="glass border border-[#FFD500]/40 text-[#FFD500] font-bold py-4 px-6 rounded-2xl transition-all duration-300"
+                className="glass glass-light border border-[#fdd949]/40 text-[#fdd949] font-bold py-4 px-6 rounded-2xl transition-all duration-300"
                 whileHover={{ 
                   scale: 1.05, 
-                  boxShadow: "0 0 25px rgba(255, 213, 0, 0.4)",
-                  borderColor: "rgba(255, 213, 0, 0.8)"
+                  boxShadow: "0 0 25px rgba(253, 217, 73, 0.4)",
+                  borderColor: "rgba(253, 217, 73, 0.8)"
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <div className="flex items-center justify-center space-x-2">
+                <div className="flex items-center justify-center gap-2">
                   <AnimatePresence mode="wait">
                     {copySuccess ? (
                       <motion.div
@@ -183,7 +220,7 @@ Join the evolution: ${inviteLink}`;
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
                         exit={{ scale: 0, rotate: 180 }}
-                        className="flex items-center space-x-2"
+                        className="flex items-center gap-2"
                       >
                         <CheckCircle className="w-5 h-5" />
                         <span>Copied!</span>
@@ -194,7 +231,7 @@ Join the evolution: ${inviteLink}`;
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         exit={{ scale: 0 }}
-                        className="flex items-center space-x-2"
+                        className="flex items-center gap-2"
                       >
                         <Copy className="w-5 h-5" />
                         <span>Copy Code</span>
@@ -204,30 +241,54 @@ Join the evolution: ${inviteLink}`;
                 </div>
               </motion.button>
             </div>
+
+            {/* Benefits List */}
+            <div className="text-left space-y-2 mb-6">
+              <div className="text-sm font-semibold text-[#e7ac08] mb-3">Invite Benefits:</div>
+              {[
+                'Earn WLFI tokens for each referral',
+                'Access to exclusive AI trading insights',
+                'Priority access to new features',
+                'Bonus rewards for active users'
+              ].map((benefit, index) => (
+                <motion.div 
+                  key={index}
+                  className="flex items-center gap-2 text-sm text-[#d7d3d0]"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.7 + index * 0.1 }}
+                >
+                  <div className="w-2 h-2 bg-[#4ade80] rounded-full" />
+                  {benefit}
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.div>
 
-        {/* Footer */}
+        {/* Enhanced Footer */}
         <motion.div 
-          className="mt-12 text-center"
+          className="mt-8 text-center pb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.9 }}
         >
-          <div className="flex items-center justify-center space-x-2 mb-3">
+          <div className="flex items-center justify-center gap-2 mb-3">
             <motion.div 
-              className="w-2 h-2 bg-[#36FF00] rounded-full"
-              animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
+              className="w-2 h-2 bg-[#4ade80] rounded-full"
+              animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <span className="text-sm text-[#E6E6E6]/70">Neural network expanding</span>
+            <span className="text-sm text-[#aaa29d]">Neural network expanding globally</span>
           </div>
-          <p className="text-xs text-[#E6E6E6]/50">
-            Build the future of AI trading together 🚀
+          <p className="text-xs text-[#aaa29d]">
+            Build the future of AI-powered finance together 🚀
           </p>
+          
+          <div className="mt-4 text-xs text-[#e7ac08] font-medium">
+            World Liberty AI - Revolutionary Financial Intelligence
+          </div>
         </motion.div>
-
-        <div className="h-24" />
       </div>
     </div>
   );
