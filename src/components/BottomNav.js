@@ -50,18 +50,19 @@ export default function BottomNav({ activeTab, setActiveTab }) {
     ];
 
     return (
-        <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50 max-w-sm w-full px-4">
+        <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50 max-w-sm w-full px-3">
             <motion.div 
-                className="glass glass-p border border-[#E6E6E6]/20 rounded-3xl shadow-2xl backdrop-blur-xl overflow-hidden relative"
+                className="glass border border-[#E6E6E6]/20 rounded-3xl shadow-2xl backdrop-blur-xl overflow-hidden relative"
                 initial={{ y: 100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
+                style={{padding:"4px"}}
             >
                 {/* Neural Background Effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#00F0FF]/5 via-[#36FF00]/5 to-[#FF007C]/5 opacity-50" />
 
                 <nav className={cn(
-                    "relative flex items-center justify-between transition-all duration-300 transform px-1 py-",
+                    "relative flex items-center justify-between transition-all duration-300 transform px-1 py-0.5",
                     isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
                 )}>
                     {navItems.map((item, index) => {
@@ -74,7 +75,7 @@ export default function BottomNav({ activeTab, setActiveTab }) {
                                 onClick={() => setActiveTab(item.id)}
                                 className={cn(
                                     "relative flex flex-col items-center justify-center transition-all duration-300 rounded-2xl min-w-[60px] group",
-                                    item.isSpecial ? "px-4 py-3" : "px-3 py-4"
+                                    item.isSpecial ? "px-3 py-2" : "px-3 py-4"
                                 )}
                             >
                                 {/* Active Background Glow */}
@@ -119,11 +120,11 @@ export default function BottomNav({ activeTab, setActiveTab }) {
                                         <div className="relative w-full h-full rounded-xl flex items-center justify-center">
                                             <Image 
                                                 src={item.icon} 
-                                                width={40} 
-                                                height={40} 
+                                                width={100} 
+                                                height={100} 
                                                 quality={80} 
                                                 alt={item.label} 
-                                                className="transition-all duration-300"
+                                                className="transition-all duration-300 scale-200"
                                             />
                                             {/* Pulse Effect for TRADON */}
                                             {isActive && (
