@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-const CustomLoader = () => {
+const WLFICustomLoader = () => {
   const canvasRef = useRef(null);
   const imageRef = useRef(null);
   const animationRef = useRef(null);
@@ -19,14 +19,14 @@ const CustomLoader = () => {
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
 
-    // Initialize particles for neural effect
-    particlesRef.current = Array.from({ length: 8 }, (_, i) => ({
+    // Initialize particles for WLFI neural effect
+    particlesRef.current = Array.from({ length: 10 }, (_, i) => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * 2,
       vy: (Math.random() - 0.5) * 2,
       size: Math.random() * 3 + 1,
-      color: ['#00F0FF', '#36FF00', '#FFD500', '#FF4E00', '#FF007C'][i % 5],
+      color: ['#e7ac08', '#fdd949', '#4ade80', '#f87171', '#8b5cf6'][i % 5],
       opacity: Math.random() * 0.8 + 0.2
     }));
 
@@ -41,7 +41,7 @@ const CustomLoader = () => {
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw neural network background particles
+      // Draw WLFI neural network background particles
       particlesRef.current.forEach(particle => {
         // Update particle position
         particle.x += particle.vx;
@@ -51,7 +51,7 @@ const CustomLoader = () => {
         if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
         if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
         
-        // Draw particle with glow
+        // Draw particle with golden glow
         ctx.save();
         ctx.globalAlpha = particle.opacity * (0.5 + 0.5 * Math.sin(time * 3 + particle.x));
         ctx.shadowBlur = 15;
@@ -63,28 +63,28 @@ const CustomLoader = () => {
         ctx.restore();
       });
       
-      // Draw the original image
+      // Draw the WLFI logo
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       
-      // Create quantum shine effect with multiple layers
+      // Create WLFI quantum shine effect with golden layers
       const gradient1 = ctx.createLinearGradient(
         shinePosition - shineWidth/2, 0, 
         shinePosition + shineWidth/2, 0
       );
       
-      gradient1.addColorStop(0, 'rgba(0, 240, 255, 0)');
-      gradient1.addColorStop(0.2, 'rgba(0, 240, 255, 0.3)');
-      gradient1.addColorStop(0.4, 'rgba(54, 255, 0, 0.6)');
-      gradient1.addColorStop(0.6, 'rgba(255, 213, 0, 0.6)');
-      gradient1.addColorStop(0.8, 'rgba(255, 78, 0, 0.3)');
-      gradient1.addColorStop(1, 'rgba(255, 0, 124, 0)');
+      gradient1.addColorStop(0, 'rgba(231, 172, 8, 0)');
+      gradient1.addColorStop(0.2, 'rgba(231, 172, 8, 0.3)');
+      gradient1.addColorStop(0.4, 'rgba(253, 217, 73, 0.6)');
+      gradient1.addColorStop(0.6, 'rgba(231, 172, 8, 0.6)');
+      gradient1.addColorStop(0.8, 'rgba(253, 217, 73, 0.3)');
+      gradient1.addColorStop(1, 'rgba(231, 172, 8, 0)');
       
-      // Apply quantum shine with composite operation
+      // Apply WLFI golden shine
       ctx.globalCompositeOperation = 'source-atop';
       ctx.fillStyle = gradient1;
       ctx.fillRect(shinePosition - shineWidth/2, 0, shineWidth, canvas.height);
       
-      // Add secondary shine layer
+      // Add secondary golden shine layer
       const gradient2 = ctx.createLinearGradient(
         shinePosition - shineWidth/4, 0, 
         shinePosition + shineWidth/4, 0
@@ -131,19 +131,19 @@ const CustomLoader = () => {
   }, []);
 
   return (
-    <div className='min-h-screen max-w-md w-full relative flex flex-col items-center justify-center mx-auto overflow-hidden bg-[#0B0B0C]'>
-      {/* Neural Network Background */}
+    <div className='min-h-screen max-w-md w-full relative flex flex-col items-center justify-center mx-auto overflow-hidden bg-[#171412]'>
+      {/* WLFI Neural Network Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0B0B0C] via-[#141414] to-[#1A1A1C]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#171412] via-[#1c1917] to-[#171412]" />
         
-        {/* Floating Neural Particles */}
+        {/* Floating WLFI Neural Particles */}
         <div className="absolute inset-0">
-          {[...Array(12)].map((_, i) => (
+          {[...Array(15)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 rounded-full"
               style={{
-                background: ['#00F0FF', '#36FF00', '#FFD500', '#FF4E00', '#FF007C'][i % 5],
+                background: ['#e7ac08', '#fdd949', '#4ade80', '#f87171', '#8b5cf6'][i % 5],
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
               }}
@@ -161,13 +161,13 @@ const CustomLoader = () => {
           ))}
         </div>
         
-        {/* Neural Grid Lines */}
+        {/* WLFI Neural Grid Lines */}
         <motion.div
           className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: `
-              linear-gradient(90deg, #00F0FF 1px, transparent 1px),
-              linear-gradient(180deg, #00F0FF 1px, transparent 1px)
+              linear-gradient(90deg, #e7ac08 1px, transparent 1px),
+              linear-gradient(180deg, #e7ac08 1px, transparent 1px)
             `,
             backgroundSize: '60px 60px',
           }}
@@ -182,7 +182,7 @@ const CustomLoader = () => {
         />
       </div>
 
-      {/* Main Logo with Quantum Shine Effect */}
+      {/* Main WLFI Logo with Quantum Shine Effect */}
       <div className="relative z-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -194,7 +194,7 @@ const CustomLoader = () => {
           <Image 
             ref={imageRef}
             src='/logo.png' 
-            alt='TRADON Logo' 
+            alt='World Liberty AI Logo' 
             width={300} 
             height={80}
             quality={100}
@@ -202,20 +202,20 @@ const CustomLoader = () => {
             crossOrigin="anonymous"
           />
           
-          {/* Canvas for quantum shine effect */}
+          {/* Canvas for WLFI quantum shine effect */}
           <canvas 
             ref={canvasRef}
             className="relative z-10 rounded-xl"
             style={{ 
               width: '300px', 
               height: '80px',
-              filter: 'drop-shadow(0 0 20px rgba(0, 240, 255, 0.3))'
+              filter: 'drop-shadow(0 0 20px rgba(231, 172, 8, 0.3))'
             }}
           />
         </motion.div>
       </div>
 
-      {/* Neural Status Indicators */}
+      {/* WLFI Neural Status Indicators */}
       <motion.div
         className="flex items-center space-x-4 mt-12"
         initial={{ opacity: 0 }}
@@ -227,8 +227,8 @@ const CustomLoader = () => {
             key={i}
             className="w-3 h-3 rounded-full"
             style={{
-              background: ['#00F0FF', '#36FF00', '#FFD500', '#FF4E00', '#FF007C'][i],
-              boxShadow: `0 0 10px ${['#00F0FF', '#36FF00', '#FFD500', '#FF4E00', '#FF007C'][i]}`,
+              background: ['#e7ac08', '#fdd949', '#4ade80', '#f87171', '#8b5cf6'][i],
+              boxShadow: `0 0 10px ${['#e7ac08', '#fdd949', '#4ade80', '#f87171', '#8b5cf6'][i]}`,
             }}
             animate={{
               scale: [1, 1.3, 1],
@@ -243,7 +243,7 @@ const CustomLoader = () => {
         ))}
       </motion.div>
 
-      {/* Neural Status Text */}
+      {/* WLFI Neural Status Text */}
       <motion.div
         className="mt-8 text-center"
         initial={{ opacity: 0, y: 10 }}
@@ -251,21 +251,21 @@ const CustomLoader = () => {
         transition={{ delay: 0.8 }}
       >
         <motion.h2
-          className="text-xl font-bold text-[#00F0FF] mb-2"
+          className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#e7ac08] to-[#fdd949] mb-2"
           animate={{
             textShadow: [
-              '0 0 10px rgba(0, 240, 255, 0.8)',
-              '0 0 20px rgba(0, 240, 255, 1)',
-              '0 0 10px rgba(0, 240, 255, 0.8)'
+              '0 0 10px rgba(231, 172, 8, 0.8)',
+              '0 0 20px rgba(253, 217, 73, 1)',
+              '0 0 10px rgba(231, 172, 8, 0.8)'
             ]
           }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          Initializing TRADON
+          Initializing World Liberty AI
         </motion.h2>
         
         <motion.p
-          className="text-sm text-[#E6E6E6]/70"
+          className="text-sm text-[#aaa29d]"
           animate={{ opacity: [0.7, 1, 0.7] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -273,23 +273,23 @@ const CustomLoader = () => {
         </motion.p>
       </motion.div>
 
-      {/* Loading Progress Bar */}
+      {/* WLFI Loading Progress Bar */}
       <motion.div
-        className="w-64 h-1 bg-[#E6E6E6]/10 rounded-full mt-6 overflow-hidden"
+        className="w-64 h-1 bg-[#44403c]/30 rounded-full mt-6 overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-[#00F0FF] via-[#36FF00] to-[#FFD500]"
+          className="h-full rounded-full bg-gradient-to-r from-[#e7ac08] via-[#fdd949] to-[#e7ac08]"
           animate={{
             x: ['-100%', '100%'],
             background: [
-              'linear-gradient(90deg, #00F0FF, #36FF00, #FFD500)',
-              'linear-gradient(90deg, #36FF00, #FFD500, #FF4E00)',
-              'linear-gradient(90deg, #FFD500, #FF4E00, #FF007C)',
-              'linear-gradient(90deg, #FF4E00, #FF007C, #00F0FF)',
-              'linear-gradient(90deg, #FF007C, #00F0FF, #36FF00)',
+              'linear-gradient(90deg, #e7ac08, #fdd949, #e7ac08)',
+              'linear-gradient(90deg, #fdd949, #e7ac08, #fdd949)',
+              'linear-gradient(90deg, #e7ac08, #fdd949, #4ade80)',
+              'linear-gradient(90deg, #fdd949, #4ade80, #e7ac08)',
+              'linear-gradient(90deg, #4ade80, #e7ac08, #fdd949)',
             ]
           }}
           transition={{
@@ -298,8 +298,27 @@ const CustomLoader = () => {
           }}
         />
       </motion.div>
+
+      {/* WLFI Brand Footer */}
+      <motion.div
+        className="absolute bottom-8 text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+      >
+        <div className="flex items-center justify-center gap-2">
+          <motion.div
+            className="w-2 h-2 bg-[#4ade80] rounded-full"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <span className="text-xs text-[#aaa29d] font-medium">
+            Revolutionary AI-powered Financial Intelligence
+          </span>
+        </div>
+      </motion.div>
     </div>
   );
 };
 
-export default CustomLoader;
+export default WLFICustomLoader;
