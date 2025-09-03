@@ -67,7 +67,7 @@ Join the revolution: ${inviteLink}`;
 
   return (
     <div className="min-h-screen text-[#E6E6E6] overflow-hidden">
-      <div className="relative z-10 max-w-md mx-auto px-4">
+      <div className="relative z-10 max-w-md mx-auto">
         
         {/* Enhanced Header */}
         <motion.div 
@@ -82,40 +82,7 @@ Join the revolution: ${inviteLink}`;
             </h1>
             <p className="text-[#e7ac08] text-lg">Expand the WLFI ecosystem</p>
           </div>
-          <motion.div 
-            className="w-12 h-12 rounded-xl border border-[#e7ac08]/40 bg-[#0B0B0C] flex items-center justify-center"
-            animate={{ 
-              borderColor: ["rgba(231, 172, 8, 0.4)", "rgba(253, 217, 73, 0.6)", "rgba(231, 172, 8, 0.4)"]
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            <Brain className="w-6 h-6 text-[#e7ac08]" />
-          </motion.div>
         </motion.div>
-
-        {/* Stats Cards */}
-        <motion.div 
-          className="grid grid-cols-2 gap-4 mb-8"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="glass glass-edges p-4 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Users className="w-5 h-5 text-[#4ade80]" />
-            </div>
-            <div className="text-2xl font-bold text-[#fafaf9]">{inviteStats.referred}</div>
-            <div className="text-sm text-[#aaa29d]">Invited</div>
-          </div>
-          <div className="glass glass-edges p-4 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Gift className="w-5 h-5 text-[#fdd949]" />
-            </div>
-            <div className="text-2xl font-bold text-[#fafaf9]">{inviteStats.rewards}</div>
-            <div className="text-sm text-[#aaa29d]">WLFI Earned</div>
-          </div>
-        </motion.div>
-
         {/* Hero Logo */}
         <motion.div 
           className="relative mb-12 flex items-center justify-center"
@@ -134,8 +101,8 @@ Join the revolution: ${inviteLink}`;
             }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div className="w-64 h-64 rounded-full bg-gradient-to-br from-[#e7ac08] to-[#fdd949] flex items-center justify-center">
-              <Brain className="w-32 h-32 text-[#171412]" />
+            <div className="w-64 h-64 rounded-full flex items-center justify-center">
+              <Image src='/logo.png' alt='logo' width={400} height={400} className='scale-150'/>
             </div>
           </motion.div>
         </motion.div>
@@ -157,7 +124,7 @@ Join the revolution: ${inviteLink}`;
             
             {/* Enhanced Code Display */}
             <motion.div 
-              className="bg-[#0B0B0C]/60 border border-[#e7ac08]/40 rounded-2xl p-6 mb-8 relative overflow-hidden"
+              className="bg-[#0B0B0C]/60 border border-[#e7ac08]/40 rounded-2xl py-3 mb-8 relative overflow-hidden"
               whileHover={{ 
                 borderColor: "rgba(231, 172, 8, 0.8)",
                 boxShadow: "0 0 40px rgba(231, 172, 8, 0.3)"
@@ -172,7 +139,7 @@ Join the revolution: ${inviteLink}`;
               />
               
               <motion.div 
-                className="font-mono text-4xl text-[#e7ac08] tracking-[0.4em] relative z-10 font-bold"
+                className="font-mono text-3xl text-[#e7ac08] tracking-[0.4em] relative z-10 font-bold"
                 animate={{ 
                   textShadow: [
                     "0 0 15px rgba(231, 172, 8, 0.8)", 
