@@ -29,6 +29,14 @@ export const metadata = {
     url: "https://worldliberty.ai/",
     siteName: "World Liberty AI – $WLFI",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png", //
+        width: 1200,
+        height: 630,
+        alt: "World Liberty AI – AI-Powered Financial Intelligence",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -36,6 +44,7 @@ export const metadata = {
     description:
       "Stay ahead of the markets with World Liberty AI. Real-time coin insights, whale alerts, and AI market summaries, all inside our Telegram Mini App.",
     creator: "@WorldLibertyAI",
+    images: ["/og-image.png"],
   },
   viewport:
     "width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover",
@@ -63,13 +72,25 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
           rel="stylesheet"
         />
+
+        {/* ✅ Favicon / Tab Icons */}
+        <link rel="icon" href="/logo.png" sizes="any" />
+        <link rel="icon" href="/logo.png" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/logo.png" />
+
+        {/* ✅ OG Meta Fallback (for crawlers that don’t parse Next.js metadata API) */}
+        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="twitter:image" content="/og-image.png" />
+
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#171412] flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         {children}
       </body>
