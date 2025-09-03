@@ -180,8 +180,8 @@ export default function WLFIOptimizedAgent() {
       {
         role: 'assistant',
         content: coin.isComingSoon 
-          ? `🚀 **${coin.name}** is launching soon! \n\nJoin our community on X for exclusive updates and early access information.`
-          : `🧠 **WLFI AI Analysis**: ${coin.name} (${coin.symbol.toUpperCase()})\n\n**Current Price**: $${coin.current_price?.toFixed(4)}\n**24h Change**: ${coin.price_change_percentage_24h?.toFixed(2)}%\n\nWhat would you like to know about ${coin.name}?`,
+          ? `🚀 ${coin.name} is launching soon! \n\nJoin our community on X for exclusive updates and early access information.`
+          : `🧠 WLFI AI Analysis: ${coin.name} (${coin.symbol.toUpperCase()})\n\nCurrent Price: $${coin.current_price?.toFixed(4)}\n24h Change: ${coin.price_change_percentage_24h?.toFixed(2)}%\n\nWhat would you like to know about ${coin.name}?`,
         timestamp: Date.now()
       }
     ]);
@@ -255,14 +255,14 @@ export default function WLFIOptimizedAgent() {
   }, [chatMessages]);
 
   return (
-    <div className="min-h-screen text-[#fafaf9]">
+    <div className="min-h-screen text-[#fafaf9] pb-28">
       {/* Search Bar */}
       <motion.div 
-        className="glass glass-edges mb-8"
+        className="glass glass-p glass-edges mb-8"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="glass-content p-4">
+        <div className="glass-content">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#e7ac08]" />
             <input
@@ -314,22 +314,22 @@ export default function WLFIOptimizedAgent() {
                 }}
                 whileHover={{ y: -5 }}
               >
-                <div className={`glass glass-edges glass-particles h-full ${
+                <div className={`glass glass-edges glass-p glass-particles h-full ${
                   coin.isComingSoon ? 'border-[#e7ac08]/60' : ''
                 }`}>
-                  <div className="glass-content p-6">
+                  <div className="glass-content">
                     
                     {/* Header */}
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-4">
                         <div className="relative">
-                          <div className="w-12 h-12 bg-[#171412] rounded-xl border border-[#44403c]/20 flex items-center justify-center overflow-hidden">
+                          <div className="w-12 h-12 rounded-xl flex items-center justify-center">
                             <img 
                               src={coin.image} 
                               alt={coin.name} 
-                              className="w-8 h-8 rounded-full"
+                              className=" rounded-full"
                               onError={(e) => {
-                                e.target.src = `https://via.placeholder.com/32/e7ac08/171412?text=${coin.symbol.charAt(0).toUpperCase()}`
+                                e.target.src = `/logo.png`
                               }}
                             />
                           </div>
