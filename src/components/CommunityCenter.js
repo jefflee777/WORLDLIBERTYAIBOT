@@ -173,12 +173,7 @@ export default function WLFICommunityCenter() {
 
   return (
     <div className="min-h-screen text-[#fafaf9] overflow-hidden relative">
-      {/* World Liberty AI Background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#e7ac08]/10 via-[#fdd949]/5 to-[#e7ac08]/10" />
-      </div>
-
-      <div className="relative z-10 max-w-md mx-auto p-4">
+      <div className="relative z-10 mx-auto">
         {/* Enhanced Header */}
         <motion.div 
           className="text-center mb-8"
@@ -331,7 +326,7 @@ export default function WLFICommunityCenter() {
         </AnimatePresence>
 
         {/* Live Activity Feed */}
-        <div className="max-w-md mx-auto">
+        <div className=" mx-auto">
           <motion.div 
             className="mb-6"
             initial={{ opacity: 0 }}
