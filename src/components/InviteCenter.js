@@ -4,7 +4,7 @@ import { Copy, Share2, CheckCircle, Brain, Users, Gift, Sparkles } from 'lucide-
 import Image from 'next/image';
 
 function InviteCenter() {
-  const [inviteCode] = useState('WLFI2025');
+  const [inviteCode] = useState('WLFIAI2025');
   const [copySuccess, setCopySuccess] = useState(false);
   const [inviteStats, setInviteStats] = useState({ referred: 0, rewards: 0 });
 
@@ -43,7 +43,7 @@ function InviteCenter() {
 🧠 AI-powered market analysis
 💎 Real-time crypto insights  
 🎯 Elite trading community access
-⚡ Earn WLFI tokens through missions
+⚡ Earn WLFIAI tokens through missions
 
 My exclusive code: ${inviteCode}
 
@@ -80,7 +80,7 @@ Join the revolution: ${inviteLink}`;
             <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#e7ac08] to-[#fdd949]">
               Invite Network
             </h1>
-            <p className="text-[#e7ac08] text-lg">Expand the WLFI ecosystem</p>
+            <p className="text-[#e7ac08] text-lg">Expand the WLFIAI ecosystem</p>
           </div>
         </motion.div>
         {/* Hero Logo */}
@@ -213,7 +213,7 @@ Join the revolution: ${inviteLink}`;
             <div className="text-left space-y-2 mb-6">
               <div className="text-sm font-semibold text-[#e7ac08] mb-3">Invite Benefits:</div>
               {[
-                'Earn WLFI tokens for each referral',
+                'Earn WLFIAI tokens for each referral',
                 'Access to exclusive AI trading insights',
                 'Priority access to new features',
                 'Bonus rewards for active users'

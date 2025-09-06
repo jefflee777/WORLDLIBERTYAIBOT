@@ -28,7 +28,7 @@ export default function WLFIMobileAgent() {
   const [conversation, setConversation] = useState([
     {
       role: 'assistant',
-      content: "WLFI AI Core Agent online. Neural networks synchronized with global markets. Ready for elite financial intelligence.",
+      content: "WLFIAI Core Agent online. Neural networks synchronized with global markets. Ready for elite financial intelligence.",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       type: 'system_init',
       confidence: 98
@@ -120,14 +120,14 @@ export default function WLFIMobileAgent() {
     setWlfiMode('ANALYZING');
 
     try {
-      const systemPrompt = `You are WLFI AI, World Liberty AI's elite financial intelligence system. 
+      const systemPrompt = `You are WLFIAI, World Liberty AI's elite financial intelligence system. 
 
 Key characteristics:
 - Provide clear, actionable crypto insights
 - Use simple language without markdown formatting
 - Include specific metrics when possible
 - Reference current market conditions
-- Emphasize WLFI's revolutionary approach
+- Emphasize WLFIAI's revolutionary approach
 - Keep responses concise (3-4 sentences max)
 - Always mention risks in crypto trading
 
@@ -182,7 +182,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
     } catch (error) {
       setConversation(prev => [...prev, {
         role: "assistant",
-        content: "Connection error. WLFI AI neural pathways temporarily disrupted. Please try again.",
+        content: "Connection error. WLFIAI neural pathways temporarily disrupted. Please try again.",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         type: 'error'
       }]);
@@ -234,7 +234,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
               </motion.div>
               
               <div>
-                <h1 className="text-lg font-bold text-[#e7ac08]">WLFI AI</h1>
+                <h1 className="text-lg font-bold text-[#e7ac08]">WLFIAI</h1>
                 <div className="flex items-center gap-2 text-xs">
                   <div className="w-2 h-2 rounded-full bg-[#4ade80] animate-pulse" />
                   <span style={{ color: getModeColor() }}>{wlfiMode}</span>
@@ -302,7 +302,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
                 </div>
               </div>
               <div className="p-2 bg-[#e7ac08]/10 rounded-lg text-center">
-                <div className="text-xs text-[#e7ac08]">WLFI</div>
+                <div className="text-xs text-[#e7ac08]">WLFIAI</div>
                 <div className="text-sm font-bold text-[#fdd949]">Soon</div>
                 <div className="text-xs text-[#e7ac08]">Launch</div>
               </div>
@@ -349,7 +349,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
                     <div className="w-6 h-6 rounded-full flex items-center justify-center">
                     <Image src='/logo.png' alt='logo' width={40} height={40} className='scale-200'/>
                   </div>
-                    <span className="text-xs text-[#aaa29d]">WLFI AI • {msg.timestamp}</span>
+                    <span className="text-xs text-[#aaa29d]">WLFIAI • {msg.timestamp}</span>
                     {msg.confidence && (
                       <div className="flex items-center gap-1">
                         <Zap className="w-3 h-3 text-[#fdd949]" />
@@ -391,7 +391,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
                   <div className="w-6 h-6 rounded-full flex items-center justify-center">
                     <Image src='/logo.png' alt='logo' width={40} height={40} className='scale-200'/>
                   </div>
-                  <span className="text-xs text-[#aaa29d]">WLFI AI analyzing...</span>
+                  <span className="text-xs text-[#aaa29d]">WLFIAI analyzing...</span>
                 </div>
                 <div className="glass glass-light rounded-2xl px-4 py-3 border-l-4 border-[#e7ac08] ml-2">
                   <div className="flex items-center gap-2">
@@ -429,7 +429,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask WLFI AI anything..."
+                placeholder="Ask WLFIAI anything..."
                 className="w-full bg-[#171412]/60 text-[#fafaf9] placeholder-[#aaa29d] rounded-2xl px-4 py-3 pr-12 border border-[#44403c]/40 focus:outline-none focus:ring-2 focus:ring-[#e7ac08]/50 focus:border-[#e7ac08] transition-all text-sm"
                 disabled={loading}
               />
@@ -457,7 +457,7 @@ Respond with intelligence and confidence, using emojis sparingly for emphasis.`;
           <div className="flex items-center justify-between mt-2 text-xs text-[#aaa29d]">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-[#4ade80] rounded-full animate-pulse" />
-              <span>WLFI Neural Network Online</span>
+              <span>WLFIAI Neural Network Online</span>
             </div>
             <div className="flex items-center gap-1">
               <Star className="w-3 h-3 text-[#e7ac08]" />

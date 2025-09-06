@@ -62,10 +62,10 @@ export default function WLFIOptimizedAgent() {
         
         // Create WLFI special card
         const wlfiCard = {
-          id: 'wlfi',
-          symbol: 'wlfi',
+          id: 'wlfiai',
+          symbol: 'wlfiai',
           name: 'World Liberty AI',
-          image: 'https://via.placeholder.com/64/e7ac08/171412?text=WLFI',
+          image: '/logo.png',
           current_price: null,
           market_cap: null,
           market_cap_rank: null,
@@ -115,13 +115,13 @@ export default function WLFIOptimizedAgent() {
     setAnalysisLoading(prev => ({ ...prev, [coinKey]: true }));
     
     try {
-      const systemPrompt = `You are WLFI AI. Analyze ${coin.name} (${coin.symbol}) at $${coin.current_price}.
+      const systemPrompt = `You are WLFIAI. Analyze ${coin.name} (${coin.symbol}) at $${coin.current_price}.
       
       Respond with:
       VERDICT: [ACCUMULATE/MONITOR/DIVEST]
       CONFIDENCE: [75/100 format]
       THESIS: [Sharp insight - max 10 words]
-      WLFI_SCORE: [1-100 rating]`;
+      WLFIAI_SCORE: [1-100 rating]`;
 
       const response = await fetch('/api/agent', {
         method: 'POST',
@@ -141,7 +141,7 @@ export default function WLFIOptimizedAgent() {
         const verdict = reply.match(/VERDICT:\s*(ACCUMULATE|MONITOR|DIVEST)/i)?.[1] || 'MONITOR';
         const confidence = parseInt(reply.match(/CONFIDENCE:\s*(\d+)\/100/i)?.[1]) || 75;
         const thesis = reply.match(/THESIS:\s*(.+)/i)?.[1]?.trim() || 'Market analysis pending';
-        const wlfiScore = parseInt(reply.match(/WLFI_SCORE:\s*(\d+)/i)?.[1]) || 70;
+        const wlfiScore = parseInt(reply.match(/WLFIAI_SCORE:\s*(\d+)/i)?.[1]) || 70;
         
         setAiAnalysis(prev => ({
           ...prev,
@@ -181,7 +181,7 @@ export default function WLFIOptimizedAgent() {
         role: 'assistant',
         content: coin.isComingSoon 
           ? `🚀 ${coin.name} is launching soon! \n\nJoin our community on X for exclusive updates and early access information.`
-          : `🧠 WLFI AI Analysis: ${coin.name} (${coin.symbol.toUpperCase()})\n\nCurrent Price: $${coin.current_price?.toFixed(4)}\n24h Change: ${coin.price_change_percentage_24h?.toFixed(2)}%\n\nWhat would you like to know about ${coin.name}?`,
+          : `🧠 WLFIAI Analysis: ${coin.name} (${coin.symbol.toUpperCase()})\n\nCurrent Price: $${coin.current_price?.toFixed(4)}\n24h Change: ${coin.price_change_percentage_24h?.toFixed(2)}%\n\nWhat would you like to know about ${coin.name}?`,
         timestamp: Date.now()
       }
     ]);
@@ -203,7 +203,7 @@ export default function WLFIOptimizedAgent() {
           messages: [
             { 
               role: 'system', 
-              content: `You are WLFI AI assistant. Provide concise, helpful analysis about ${selectedCoin.name}. Be professional and engaging.` 
+              content: `You are WLFIAI assistant. Provide concise, helpful analysis about ${selectedCoin.name}. Be professional and engaging.` 
             },
             ...chatMessages.slice(-4),
             userMessage
@@ -380,7 +380,7 @@ export default function WLFIOptimizedAgent() {
                         <div className="text-center">
                           <div className="text-2xl font-bold text-[#e7ac08] mb-2">COMING SOON</div>
                           <h3 className="text-xl font-bold text-[#fafaf9] mb-2">World Liberty AI</h3>
-                          <h4 className="text-lg font-semibold text-[#fdd949] mb-4">WLFI</h4>
+                          <h4 className="text-lg font-semibold text-[#fdd949] mb-4">WLFIAI</h4>
                         </div>
                         
                         <p className="text-[#d7d3d0] leading-relaxed text-center">
@@ -390,7 +390,7 @@ export default function WLFIOptimizedAgent() {
                         <div className="space-y-3">
                           <div className="flex justify-between items-center p-3 bg-[#171412]/40 rounded-lg border border-[#44403c]/20">
                             <span className="text-[#aaa29d]">Max Supply:</span>
-                            <span className="text-[#fafaf9] font-semibold">{coin.maxSupply} WLFI</span>
+                            <span className="text-[#fafaf9] font-semibold">{coin.maxSupply} WLFIAI</span>
                           </div>
                           <div className="flex justify-between items-center p-3 bg-[#171412]/40 rounded-lg border border-[#44403c]/20">
                             <span className="text-[#aaa29d]">Status:</span>
@@ -406,7 +406,7 @@ export default function WLFIOptimizedAgent() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          Join WLFI on X
+                          Join WLFIAI on X
                           <ExternalLink className="w-4 h-4" />
                         </motion.a>
                       </div>
@@ -454,7 +454,7 @@ export default function WLFIOptimizedAgent() {
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
                               <Sparkles className="w-4 h-4 text-[#e7ac08]" />
-                              <span className="text-sm font-medium text-[#e7ac08]">WLFI AI</span>
+                              <span className="text-sm font-medium text-[#e7ac08]">WLFIAI</span>
                             </div>
                             
                             <motion.button
@@ -499,7 +499,7 @@ export default function WLFIOptimizedAgent() {
                                 
                                 <div className="text-right">
                                   <div className="text-sm font-bold text-[#fafaf9]">{analysis.wlfiScore}/100</div>
-                                  <div className="text-xs text-[#aaa29d]">WLFI Score</div>
+                                  <div className="text-xs text-[#aaa29d]">WLFIAI Score</div>
                                 </div>
                               </div>
                               
@@ -534,7 +534,7 @@ export default function WLFIOptimizedAgent() {
                             </motion.div>
                           ) : (
                             <div className="text-sm text-[#aaa29d] italic py-2">
-                              Awaiting WLFI AI analysis...
+                              Awaiting WLFIAI analysis...
                             </div>
                           )}
                           
@@ -546,7 +546,7 @@ export default function WLFIOptimizedAgent() {
                             whileTap={{ scale: 0.98 }}
                           >
                             <MessageCircle className="w-4 h-4" />
-                            Chat with WLFI AI
+                            Chat with WLFIAI
                           </motion.button>
                         </div>
                       </>
@@ -631,7 +631,7 @@ export default function WLFIOptimizedAgent() {
                           <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse" />
                           <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse delay-100" />
                           <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse delay-200" />
-                          <span className="text-[#aaa29d] text-sm ml-2">WLFI AI is thinking...</span>
+                          <span className="text-[#aaa29d] text-sm ml-2">WLFIAI is thinking...</span>
                         </div>
                       </div>
                     </div>

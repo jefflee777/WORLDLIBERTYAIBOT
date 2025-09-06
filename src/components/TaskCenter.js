@@ -16,7 +16,7 @@ const TaskCenter = () => {
   const handlePurchasePass = (count) => {
     const success = purchasePass(count);
     if (!success) {
-      setError('Insufficient WLFI Points');
+      setError('Insufficient WLFIAI Points');
       setTimeout(() => setError(null), 3000);
     }
   };
@@ -63,7 +63,7 @@ const TaskCenter = () => {
                 <TradonAIIcon />
                 <div>
                   <h4 className="text-gray-200 font-semibold">Neural Calibration</h4>
-                  <p className="text-gray-300 text-sm">100 WLFI TOKENS</p>
+                  <p className="text-gray-300 text-sm">100 WLFIAI TOKENS</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -93,7 +93,7 @@ const TaskCenter = () => {
                 <TradonAIIcon />
                 <div>
                   <h4 className="text-gray-200 font-semibold">Amplify Signal</h4>
-                  <p className="text-gray-300 text-sm">1K WLFI TOKENS</p>
+                  <p className="text-gray-300 text-sm">1K WLFIAI TOKENS</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -134,7 +134,7 @@ const TaskCenter = () => {
                 <TradonAIIcon />
                 <div>
                   <h4 className="text-gray-200 font-semibold">Join Network</h4>
-                  <p className="text-gray-300 text-sm">1K WLFI TOKENS</p>
+                  <p className="text-gray-300 text-sm">1K WLFIAI TOKENS</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -169,7 +169,7 @@ const TaskCenter = () => {
                 <TradonAIIcon />
                 <div>
                   <h4 className="text-gray-200 font-semibold">Expand Network</h4>
-                  <p className="text-gray-300 text-sm">5K WLFI TOKENS</p>
+                  <p className="text-gray-300 text-sm">5K WLFIAI TOKENS</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -195,7 +195,7 @@ const TaskCenter = () => {
       </div>
       {/* Description */}
       <p className="text-gray-200 mb-6 text-center leading-relaxed">
-                Use WLFI Tokens to purchase AI Licenses and activate your neural pathways. 
+                Use WLFIAI Tokens to purchase AI Licenses and activate your neural pathways. 
                 Once activated, you can access quantum trading algorithms and earn rewards 
                 through elite market predictions.
         </p>
@@ -212,13 +212,13 @@ const TaskCenter = () => {
             onClick={() => handlePurchasePass(1)}
             className="flex-1 glass-light glass-blue py-4 rounded-2xl text-gray-200 font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
-            1 LICENSE / 500 WLFI
+            1 LICENSE / 500 WLFIAI
           </button>
           <button
             onClick={() => handlePurchasePass(5)}
             className="flex-1 glass-light glass-blue py-4 rounded-2xl text-gray-200 font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
-            5 LICENSES / 2K WLFI
+            5 LICENSES / 2K WLFIAI
           </button>
         </div>
       <div className='h-20'/>

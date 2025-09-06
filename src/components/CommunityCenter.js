@@ -117,12 +117,12 @@ export default function WLFICommunityCenter() {
       if (Math.random() > 0.7) {
         const activities = [
           "Quantum AI trade executed",
-          "WLFI market analysis completed", 
+          "WLFIAI market analysis completed", 
           "Neural prediction validated",
           "Liberty AI risk matrix optimized",
-          "WLFI pattern recognition mastered",
+          "WLFIAI pattern recognition mastered",
           "AI sentiment analysis processed",
-          "Market anomaly detected by WLFI",
+          "Market anomaly detected by WLFIAI",
           "World Liberty neural sync completed"
         ];
         
@@ -130,7 +130,7 @@ export default function WLFICommunityCenter() {
         
         const newActivity = {
           id: Date.now(),
-          username: `WLFITrader${Math.floor(Math.random() * 999)}`,
+          username: `WLFIAITrader${Math.floor(Math.random() * 999)}`,
           action: activities[Math.floor(Math.random() * activities.length)],
           reward: Math.floor(Math.random() * 2000) + 500,
           wlfi: Math.floor(Math.random() * 400) + 100,
@@ -192,7 +192,7 @@ export default function WLFICommunityCenter() {
             }}
             transition={{ duration: 4, repeat: Infinity }}
           >
-            WLFI <span className="text-[#fdd949]">NETWORK</span>
+            WLFIAI <span className="text-[#fdd949]">NETWORK</span>
           </motion.h1>
           <p className="text-[#aaa29d] text-sm">Elite AI traders shaping financial intelligence</p>
         </motion.div>
@@ -253,7 +253,7 @@ export default function WLFICommunityCenter() {
               transition={{ duration: 3, repeat: Infinity }}
             >
               <span className="text-[#aaa29d] text-sm font-medium">
-                {totalUsers.toLocaleString()} WLFI traders active
+                {totalUsers.toLocaleString()} WLFIAI traders active
               </span>
             </motion.div>
           </div>
@@ -267,10 +267,10 @@ export default function WLFICommunityCenter() {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           {[
-            { value: totalUsers, label: "WLFI Traders", icon: FaUsers, color: "#e7ac08" },
+            { value: totalUsers, label: "WLFIAI Traders", icon: FaUsers, color: "#e7ac08" },
             { value: activeTrades, label: "Active Quantum", icon: FaChartLine, color: "#4ade80" },
             { value: completedToday, label: "Trades Today", icon: FaTrophy, color: "#fdd949" },
-            { value: totalWLFIEarned, label: "$WLFI Earned", icon: FaCoins, color: "#f87171" }
+            { value: totalWLFIEarned, label: "$WLFIAI Earned", icon: FaCoins, color: "#f87171" }
           ].map((stat, index) => (
             <motion.div 
               key={index}
@@ -320,7 +320,7 @@ export default function WLFICommunityCenter() {
                 />
                 <FaBrain className="w-6 h-6 text-[#e7ac08] absolute top-3 left-3" />
               </div>
-              <p className="text-[#aaa29d] mt-4 text-sm">Initializing WLFI neural networks...</p>
+              <p className="text-[#aaa29d] mt-4 text-sm">Initializing WLFIAI neural networks...</p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -342,7 +342,7 @@ export default function WLFICommunityCenter() {
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <h2 className="text-lg font-bold text-[#fafaf9]">LIVE WLFI ACTIVITY</h2>
+              <h2 className="text-lg font-bold text-[#fafaf9]">LIVE WLFIAI ACTIVITY</h2>
             </div>
           </motion.div>
 
@@ -431,7 +431,7 @@ export default function WLFICommunityCenter() {
               <span className="text-sm font-bold text-[#e7ac08]">World Liberty AI</span>
             </div>
             <span className="text-xs text-[#aaa29d]">
-              Join the elite network of AI-powered traders earning $WLFI tokens
+              Join the elite network of AI-powered traders earning $WLFIAI tokens
             </span>
           </div>
         </motion.p>

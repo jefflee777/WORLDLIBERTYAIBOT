@@ -96,7 +96,7 @@ export default function DataCenter() {
     setAnalysisLoading(prev => ({ ...prev, [coinKey]: true }));
     
     try {
-      const systemPrompt = `You are WLFI AI. Analyze ${coin.name} (${coin.symbol}) at $${coin.priceUsd} with ${coin.changePercent24Hr}% change.
+      const systemPrompt = `You are WLFIAI. Analyze ${coin.name} (${coin.symbol}) at $${coin.priceUsd} with ${coin.changePercent24Hr}% change.
       
       Respond exactly as:
       ACTION: [ACCUMULATE/MONITOR/DIVEST]
@@ -183,7 +183,7 @@ export default function DataCenter() {
     setChatMessages([
       {
         role: 'assistant',
-        content: `🧠 **WLFI AI Analysis**: ${coin.name} (${coin.symbol.toUpperCase()})
+        content: `🧠 **WLFIAI Analysis**: ${coin.name} (${coin.symbol.toUpperCase()})
         
 **Current Price**: $${parseFloat(coin.priceUsd).toFixed(4)}
 **24h Change**: ${parseFloat(coin.changePercent24Hr).toFixed(2)}%
@@ -218,7 +218,7 @@ What would you like to know about ${coin.name}?`,
           messages: [
             {
               role: "system",
-              content: `You are WLFI AI analyzing ${selectedCoin.name}. Be concise and helpful.`
+              content: `You are WLFIAI analyzing ${selectedCoin.name}. Be concise and helpful.`
             },
             ...chatMessages.slice(-5),
             userMessage
@@ -311,7 +311,7 @@ What would you like to know about ${coin.name}?`,
             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
           />
           <p className="text-[#e7ac08] mt-4 text-sm font-medium">
-            Initializing WLFI AI systems...
+            Initializing WLFIAI systems...
           </p>
         </div>
       )}
@@ -437,7 +437,7 @@ What would you like to know about ${coin.name}?`,
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <Sparkles className="w-4 h-4 text-[#e7ac08]" />
-                          <span className="text-sm font-medium text-[#e7ac08]">WLFI AI</span>
+                          <span className="text-sm font-medium text-[#e7ac08]">WLFIAI</span>
                         </div>
                         
                         {analysis && (
@@ -575,7 +575,7 @@ What would you like to know about ${coin.name}?`,
                           <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse" />
                           <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse delay-100" />
                           <div className="w-2 h-2 bg-[#e7ac08] rounded-full animate-pulse delay-200" />
-                          <span className="text-[#aaa29d] text-sm ml-2">WLFI AI is thinking...</span>
+                          <span className="text-[#aaa29d] text-sm ml-2">WLFIAI is thinking...</span>
                         </div>
                       </div>
                     </div>
