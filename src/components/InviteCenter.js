@@ -19,7 +19,7 @@ function InviteCenter() {
   }, []);
 
   const generateInviteLink = () => {
-    return `https://t.me/WorldLibertyAI_Bot`;
+    return `https://t.me/WLFIai_bot/live`;
   };
 
   const handleCopyCode = async () => {
